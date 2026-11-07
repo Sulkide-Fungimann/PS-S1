@@ -3,8 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-// Utilise le premier contact choisi par ton InputManager (doigt ou souris simulee).
-// Un rayon choisit la surface ; le geste deplace ensuite un sommet dans un plan face camera.
+
 [DisallowMultipleComponent]
 public class SoftBodyGrabber : MonoBehaviour
 {

@@ -18,8 +18,7 @@ public class DetectionEntity : AbstractEntity
         Detection = 8,
         Everything = Active | Passive | SoftBody | Detection
     }
-
-    // SoftBodyEntity derive de MonoBehaviour, contrairement aux autres entites.
+    
     [Serializable]
     public class EntityEvent : UnityEvent<MonoBehaviour> { }
 
@@ -32,17 +31,33 @@ public class DetectionEntity : AbstractEntity
     [Header("Detection Filters")]
     [SerializeField] private EntityTypes detectedTypes = EntityTypes.Active;
     [SerializeField] private LayerMask detectedLayers = ~0;
-    [Tooltip("Liste vide : tous les tags. Sinon, correspondance exacte avec au moins une entree.")]
+
     [SerializeField] private string[] allowedTags = new string[0];
-    [Tooltip("Liste vide : tous les noms. Comparaison exacte, sensible aux majuscules.")]
+
     [SerializeField] private string[] allowedNames = new string[0];
-    [Tooltip("Retire uniquement le suffixe (Clone) avant de comparer le nom.")]
+
     [SerializeField] private bool ignoreCloneSuffix = true;
 
     [Header("Detection Events")]
     [SerializeField] private EntityEvent onEnter = new EntityEvent();
     [SerializeField] private EntityEvent onStay = new EntityEvent();
     [SerializeField] private EntityEvent onExit = new EntityEvent();
+
+    [Header("Detection State (Runtime)")]
+
+    [SerializeField] private List<MonoBehaviour> insideEntities = new List<MonoBehaviour>(32);
+
+    [SerializeField] private List<MonoBehaviour> enteredEntities = new List<MonoBehaviour>(16);
+
+    [SerializeField] private List<MonoBehaviour> exitedEntities = new List<MonoBehaviour>(16);
+
+    private IReadOnlyList<MonoBehaviour> _insideView;
+    private IReadOnlyList<MonoBehaviour> _enteredView;
+    private IReadOnlyList<MonoBehaviour> _exitedView;
+
+    public IReadOnlyList<MonoBehaviour> InsideEntities => _insideView ??= insideEntities.AsReadOnly();
+    public IReadOnlyList<MonoBehaviour> EnteredEntities => _enteredView ??= enteredEntities.AsReadOnly();
+    public IReadOnlyList<MonoBehaviour> ExitedEntities => _exitedView ??= exitedEntities.AsReadOnly();
 
     public EntityEvent OnEnter => onEnter;
     public EntityEvent OnStay => onStay;
@@ -69,6 +84,19 @@ public class DetectionEntity : AbstractEntity
         public EventKind Kind;
     }
 
+    protected override void Awake()
+    {
+        base.Awake();
+        ClearDetectionLists();
+    }
+
+    private void ClearDetectionLists()
+    {
+        insideEntities.Clear();
+        enteredEntities.Clear();
+        exitedEntities.Clear();
+    }
+
     protected virtual void OnEnable()
     {
         RefreshDetectionShape();
@@ -90,18 +118,17 @@ public class DetectionEntity : AbstractEntity
     protected virtual void OnDisable()
     {
         if (_physicsManager != null) _physicsManager.Unregister(this);
-        // Une zone desactivee cesse d'emettre. Reactivation : nouveaux Enter.
         _generation++;
         _inside.Clear();
         _next.Clear();
         _notified.Clear();
         _events.Clear();
+        ClearDetectionLists();
     }
 
     internal void RefreshDetectionShape()
     {
         RefreshPosition();
-        // Comme PassiveEntity : dimensions en unites monde, scale ignore.
         _geometry = shape == DetectionShape.Box
             ? DetectionGeometry.Shape.Box(Position, transform.rotation, BoxSize)
             : DetectionGeometry.Shape.Sphere(Position, Radius);
@@ -112,24 +139,27 @@ public class DetectionEntity : AbstractEntity
         _evaluatedGeneration = _generation;
         _events.Clear();
         _next.Clear();
+        ClearDetectionLists();
         for (int i = 0; i < candidates.Count; i++)
         {
             MonoBehaviour other = candidates[i];
             if (!Accepts(other) || !Overlaps(other) || !_next.Add(other)) continue;
-            _events.Add(new PendingEvent { Entity = other, Kind = _notified.Contains(other) ? EventKind.Stay : EventKind.Enter });
+            insideEntities.Add(other);
+            bool wasNotified = _notified.Contains(other);
+            _events.Add(new PendingEvent { Entity = other, Kind = wasNotified ? EventKind.Stay : EventKind.Enter });
         }
         foreach (MonoBehaviour other in _notified)
-            if (!_next.Contains(other)) _events.Add(new PendingEvent { Entity = other, Kind = EventKind.Exit });
+        {
+            if (_next.Contains(other)) continue;
+            _events.Add(new PendingEvent { Entity = other, Kind = EventKind.Exit });
+        }
 
-        HashSet<MonoBehaviour> previous = _inside;
-        _inside = _next;
-        _next = previous;
+        (_inside, _next) = (_next, _inside);
         _next.Clear();
     }
 
     internal void DispatchEvents()
     {
-        // Aucune callback pendant le parcours des registres ou les calculs physiques.
         for (int i = 0; i < _events.Count; i++)
         {
             if (this == null || !isActiveAndEnabled || _generation != _evaluatedGeneration) break;
@@ -141,11 +171,13 @@ public class DetectionEntity : AbstractEntity
                 {
                     case EventKind.Enter:
                         _notified.Add(entry.Entity);
+                        enteredEntities.Add(entry.Entity);
                         onEnter.Invoke(entry.Entity);
                         break;
                     case EventKind.Stay: onStay.Invoke(entry.Entity); break;
                     case EventKind.Exit:
                         _notified.Remove(entry.Entity);
+                        exitedEntities.Add(entry.Entity);
                         onExit.Invoke(entry.Entity);
                         break;
                 }

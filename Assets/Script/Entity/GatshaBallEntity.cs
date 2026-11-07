@@ -51,7 +51,6 @@ public class GatshaBallEntity : ActiveEntity
         Velocity = Vector3.zero;
         IsSelected = true;
         _aimVisual = VisualFilter != null ? VisualFilter.transform : transform;
-        // Reference fixe : reprendre une boule ne cumule pas les angles du tir precedent.
         _visualRotationAtGrab = _aimVisual.parent != null
             ? _aimVisual.parent.rotation * _defaultVisualLocalRotation
             : _defaultVisualLocalRotation;
@@ -75,7 +74,6 @@ public class GatshaBallEntity : ActiveEntity
     {
         if (!IsSelected) return;
         transform.position = _aimAnchor;
-        // Le temps passe a viser ne consomme pas la duree de vie de la boule.
         SpawnedAt += Mathf.Max(0f, Time.time - _aimStartedAt);
         IsSelected = false;
         Velocity = canceled ? Vector3.zero : launchVelocity;
@@ -96,6 +94,7 @@ public class GatshaBallEntity : ActiveEntity
         Vector3 position = transform.position;
         position.z = 0f;
         transform.position = position;
+        gameObject.layer = LayerMask.NameToLayer("OutScreenEntity");
     }
 
     private bool _initialized;
@@ -103,7 +102,6 @@ public class GatshaBallEntity : ActiveEntity
 
     private void CacheVisualRotation()
     {
-        // Initialize peut preceder Awake pour un prefab instancie dans le pool inactif.
         if (_visualRotationCached) return;
         Transform visual = VisualFilter != null ? VisualFilter.transform : transform;
         _defaultVisualLocalRotation = visual.localRotation;

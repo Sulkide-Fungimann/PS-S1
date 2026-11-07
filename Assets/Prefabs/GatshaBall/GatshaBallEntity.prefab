@@ -51,7 +51,7 @@ MonoBehaviour:
   visualFilter: {fileID: 1819399437842548631}
   enableDebug: 1
   debugOnContact: 0
-  colliderGizmoColor: {r: 1, g: 0, b: 0, a: 1}
+  colliderGizmoColor: {r: 0.9810126, g: 1, b: 0, a: 1}
   initialVelocity: {x: 0, y: 0, z: 0}
   mass: 1
   positionConstraint:

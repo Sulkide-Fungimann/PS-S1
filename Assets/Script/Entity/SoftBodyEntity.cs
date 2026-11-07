@@ -1,7 +1,5 @@
 using UnityEngine;
 
-// Etape 6 : cage physique et maillage visuel detaille lie aux tetraedres.
-// Le PhysicsManager pilote la simulation. Le maillage suit les points physiques.
 [DisallowMultipleComponent]
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class SoftBodyEntity : MonoBehaviour
@@ -179,7 +177,7 @@ public class SoftBodyEntity : MonoBehaviour
         for (int i = 0; i < _meshVertices.Length; i++)
             _meshVertices[i] = transform.InverseTransformPoint(_positions[i]);
 
-        _mesh.Clear(); // Retire les anciens indices avant un changement de subdivision.
+        _mesh.Clear();
         _mesh.vertices = _meshVertices;
         _mesh.triangles = _data.SurfaceTriangles;
         _meshFilter.sharedMesh = _mesh;
@@ -265,8 +263,7 @@ public class SoftBodyEntity : MonoBehaviour
             _velocities[i] *= dampingFactor;
         }
     }
-
-    // Detection du volume de la cage deformee, sans modifier la simulation.
+    
     internal bool OverlapsDetection(DetectionGeometry.Shape zone)
     {
         if (!_initialized || _data == null || _positions.Length == 0) return false;
@@ -513,7 +510,6 @@ public class SoftBodyEntity : MonoBehaviour
         if (simulated) data = _data;
         else
         {
-            // Cache de la geometrie de previsualisation : aucune reconstruction par image.
             if (_previewData == null || _previewSize != size || _previewSubdivisions != subdivisions)
             {
                 _previewData = SoftBodyMeshData.CreateCube(size, subdivisions);

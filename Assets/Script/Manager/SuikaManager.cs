@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 
 public class SuikaManager : MonoBehaviour
@@ -31,6 +33,41 @@ public class SuikaManager : MonoBehaviour
             }
         }
     }
+
+    [Header("Player Parameters")]
+    [Min(1)] public int PlayerMaxLife = 3;
+    [SerializeField] private int playerCurrentLife;
+
+    public int PlayerCurrentLife
+    {
+        get => playerCurrentLife;
+        set => SetPlayerLife(value);
+    }
+    
+    [Min(0.01f)] public float LifeRegenerationTimer = 10f;
+    [Min(0f)] public float MultRegenerationTimer = 15f;
+    [Min(0.01f)] public float MultRegenerationValue = 2f;
+    [Min(0f)] public float TimerCooldown = 3f;
+
+    [SerializeField, Range(0f, 1f)] private float regenerationProgress;
+    [SerializeField] private float regenerationCooldownRemaining;
+    [SerializeField] private float timeWithoutDamage;
+
+    public float RegenerationProgress => regenerationProgress;
+    public float RegenerationCooldownRemaining => regenerationCooldownRemaining;
+    public float TimeWithoutDamage => timeWithoutDamage;
+    public bool IsDefeated { get; private set; }
+    public bool IsRegenerationBoosted => timeWithoutDamage >= Mathf.Max(0f, MultRegenerationTimer);
+
+    [Serializable] public class LifeEvent : UnityEvent<int> { }
+    [Serializable] public class RegenerationEvent : UnityEvent<float> { }
+
+
+
+    [Header("UI Settings")]
+    public Canvas UICanvas;
+    public List<GameObject> HeartUiByOrderList = new List<GameObject>();
+    private Image[] _heartImages = Array.Empty<Image>();
 
     [Header("Gatsha Ball Settings")]
     public GatshaBallEntity BaseEntity;
@@ -69,8 +106,7 @@ public class SuikaManager : MonoBehaviour
     [SerializeField] private bool usePooling = true;
     [SerializeField, Min(0)] private int prewarmCount = 16;
     [SerializeField, Min(0)] private int maximumPooledBalls = 64;
-    [SerializeField, Min(0f)] private float recycleMargin = 1f;
-    [SerializeField, Min(0f)] private float maximumBallLifetime = 30f;
+
 
     [Header("Etat de la partie (lecture pendant Play)")]
     [SerializeField] private long completedActions;
@@ -110,6 +146,7 @@ public class SuikaManager : MonoBehaviour
 
         completedActions = 0;
         gameTime = 0f;
+        ResetPlayerLife();
         UpdateNextActionTimer();
         actionCountdown = Mathf.Max(0f, startDelay);
         IsGameRunning = true;
@@ -137,6 +174,7 @@ public class SuikaManager : MonoBehaviour
     {
         if (!IsGameRunning || Time.deltaTime <= 0f) return;
         gameTime += Time.deltaTime;
+        UpdateLifeRegeneration(Time.deltaTime);
         if (!IsSpawning) return;
 
         actionCountdown -= Time.deltaTime;
@@ -176,6 +214,141 @@ public class SuikaManager : MonoBehaviour
             FinishSequence();
         else
             actionCountdown = GetActionDelay();
+    }
+
+
+    public void OnPlayerDamaged()
+    {
+        if (!IsGameRunning || IsDefeated) return;
+        SetPlayerLife(playerCurrentLife - 1);
+    }
+
+    public void OnPlayerHeal()
+    {
+        if (!IsGameRunning || IsDefeated) return;
+        SetPlayerLife(playerCurrentLife + 1);
+    }
+
+    public void OnPlayerDeath()
+    {
+        if (!IsGameRunning || IsDefeated) return;
+        SetPlayerLife(0);
+    }
+    
+
+    private void ResetPlayerLife()
+    {
+        PlayerMaxLife = Mathf.Max(1, PlayerMaxLife);
+        playerCurrentLife = PlayerMaxLife;
+        regenerationProgress = 0f;
+        regenerationCooldownRemaining = 0f;
+        timeWithoutDamage = 0f;
+        IsDefeated = false;
+        RefreshHeartUIBindings();
+    }
+
+    private void SetPlayerLife(int value)
+    {
+        if (IsDefeated) return;
+        value = Mathf.Clamp(value, 0, Mathf.Max(1, PlayerMaxLife));
+        if (value == playerCurrentLife) return;
+
+        bool lostLife = value < playerCurrentLife;
+        playerCurrentLife = value;
+        if (lostLife)
+        {
+            timeWithoutDamage = 0f;
+            regenerationCooldownRemaining = Mathf.Max(0f, TimerCooldown);
+          
+        }
+
+        bool defeated = playerCurrentLife == 0;
+        if (defeated)
+        {
+            IsDefeated = true;
+            regenerationCooldownRemaining = 0f;
+            StopGame();
+        }
+        if (defeated || playerCurrentLife >= PlayerMaxLife) regenerationProgress = 0f;
+
+        UpdateHeartUI();
+    }
+
+    private void UpdateLifeRegeneration(float deltaTime)
+    {
+        if (IsDefeated) return;
+
+        float previousTimeWithoutDamage = timeWithoutDamage;
+        timeWithoutDamage += deltaTime;
+
+        float frozenTime = Mathf.Min(deltaTime, regenerationCooldownRemaining);
+        regenerationCooldownRemaining = Mathf.Max(0f, regenerationCooldownRemaining - deltaTime);
+        float activeTime = deltaTime - frozenTime;
+        if (activeTime <= 0f || playerCurrentLife >= PlayerMaxLife) return;
+
+        float normalTime = Mathf.Clamp(
+            Mathf.Max(0f, MultRegenerationTimer) - (previousTimeWithoutDamage + frozenTime),
+            0f, activeTime);
+        float boostedTime = activeTime - normalTime;
+        float progressToAdd = (normalTime + boostedTime * Mathf.Max(0.01f, MultRegenerationValue))
+            / Mathf.Max(0.01f, LifeRegenerationTimer);
+
+        while (progressToAdd > 0f && IsGameRunning && !IsDefeated && playerCurrentLife < PlayerMaxLife)
+        {
+            float needed = 1f - regenerationProgress;
+            if (progressToAdd < needed)
+            {
+                regenerationProgress += progressToAdd;
+                break;
+            }
+
+            progressToAdd -= needed;
+            regenerationProgress = 0f;
+            OnPlayerHeal();
+            if (regenerationCooldownRemaining > 0f) break;
+        }
+
+        UpdateHeartUI();
+    }
+
+    public void RefreshHeartUIBindings()
+    {
+        int count = HeartUiByOrderList == null ? 0 : HeartUiByOrderList.Count;
+        _heartImages = new Image[count];
+        for (int i = 0; i < count; i++)
+        {
+            GameObject heart = HeartUiByOrderList[i];
+            if (heart == null) continue;
+            Image heartImage = heart.GetComponent<Image>();
+            _heartImages[i] = heartImage;
+            if (heartImage == null)
+            {
+                Debug.LogWarning("Le coeur UI numero " + (i + 1) + " doit porter un composant Image", heart);
+                continue;
+            }
+            heartImage.type = Image.Type.Filled;
+            heartImage.fillMethod = Image.FillMethod.Horizontal;
+            heartImage.fillOrigin = (int)Image.OriginHorizontal.Left;
+        }
+        UpdateHeartUI();
+    }
+
+    public float GetHeartFillAmount(int heartIndex)
+    {
+        if (heartIndex < 0 || heartIndex >= PlayerMaxLife) return 0f;
+        if (heartIndex < playerCurrentLife) return 1f;
+        if (heartIndex == playerCurrentLife && !IsDefeated) return regenerationProgress;
+        return 0f;
+    }
+
+    private void UpdateHeartUI()
+    {
+        for (int i = 0; i < _heartImages.Length; i++)
+        {
+            Image heart = _heartImages[i];
+            if (heart == null) continue;
+            heart.fillAmount = GetHeartFillAmount(i);
+        }
     }
 
     private GatshaActions PickNextActions()
@@ -306,33 +479,7 @@ public class SuikaManager : MonoBehaviour
         ball.transform.SetParent(_poolRoot, true);
         _retiredBalls.Add(ball);
     }
-
-    private void LateUpdate()
-    {
-        if (gameplayCamera != null && _liveBalls.Count > 0)
-            GeometryUtility.CalculateFrustumPlanes(gameplayCamera, _frustumPlanes);
-
-        for (int i = _liveBalls.Count - 1; i >= 0; i--)
-        {
-            GatshaBallEntity ball = _liveBalls[i];
-            if (ball == null) { _liveBalls.RemoveAt(i); continue; }
-            if (!ball.IsActionBall || ball.IsContained || ball.IsSelected) continue;
-            float margin = ball.Radius + Mathf.Max(0f, recycleMargin);
-            bool belowScreen = ball.Position.y < -margin && ball.Velocity.y < 0f &&
-                (gameplayCamera == null || _frustumPlanes[2].GetDistanceToPoint(ball.Position) < -margin);
-            bool tooOld = maximumBallLifetime > 0f && Time.time - ball.SpawnedAt >= maximumBallLifetime;
-            if (belowScreen || tooOld) RecycleBall(ball);
-        }
-
-        for (int i = 0; i < _retiredBalls.Count; i++)
-        {
-            GatshaBallEntity ball = _retiredBalls[i];
-            if (ball == null) continue;
-            if (usePooling && _pool.Count < maximumPooledBalls) _pool.Push(ball);
-            else Destroy(ball.gameObject);
-        }
-        _retiredBalls.Clear();
-    }
+    
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
