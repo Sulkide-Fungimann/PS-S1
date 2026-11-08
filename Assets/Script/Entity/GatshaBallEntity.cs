@@ -4,6 +4,7 @@ public class GatshaBallEntity : ActiveEntity
 {
     [Header("Gatsha Ball Settings")]
     [SerializeField, Min(1)] private int level = 1;
+    [SerializeField] private GameObject visualParent;
     public int Level
     {
         get { return level; }
@@ -35,7 +36,8 @@ public class GatshaBallEntity : ActiveEntity
     private Transform _aimVisual;
     private Quaternion _visualRotationAtGrab;
     private Quaternion _defaultVisualLocalRotation;
-    private bool _visualRotationCached;
+    private GameObject _modelInstance;
+    private GameObject _currentModelPrefab;
 
     public override Vector3 Position
     {
@@ -50,10 +52,8 @@ public class GatshaBallEntity : ActiveEntity
         _aimStartedAt = Time.time;
         Velocity = Vector3.zero;
         IsSelected = true;
-        _aimVisual = VisualFilter != null ? VisualFilter.transform : transform;
-        _visualRotationAtGrab = _aimVisual.parent != null
-            ? _aimVisual.parent.rotation * _defaultVisualLocalRotation
-            : _defaultVisualLocalRotation;
+        _aimVisual = _modelInstance != null ? _modelInstance.transform : transform;
+        _visualRotationAtGrab = _aimVisual.parent != null ? _aimVisual.parent.rotation * _defaultVisualLocalRotation : _defaultVisualLocalRotation;
         return true;
     }
 
@@ -90,7 +90,6 @@ public class GatshaBallEntity : ActiveEntity
     {
         SetObjectAllConstaint(false, false, true);
         base.Awake();
-        CacheVisualRotation();
         Vector3 position = transform.position;
         position.z = 0f;
         transform.position = position;
@@ -100,14 +99,39 @@ public class GatshaBallEntity : ActiveEntity
     private bool _initialized;
     private bool _mergePending;
 
-    private void CacheVisualRotation()
+    private bool SetModelPrefab(GameObject prefab, float scale)
     {
-        if (_visualRotationCached) return;
-        Transform visual = VisualFilter != null ? VisualFilter.transform : transform;
-        _defaultVisualLocalRotation = visual.localRotation;
-        _visualRotationCached = true;
+        Transform parent = visualParent != null ? visualParent.transform : transform;
+        if (parent != transform && !parent.IsChildOf(transform))
+        {
+            Debug.LogError(name + " : Visual Parent doit appartenir a cette boule.", this);
+            return false;
+        }
+
+        if (_modelInstance == null || _currentModelPrefab != prefab)
+        {
+            if (_modelInstance != null)
+            {
+                _modelInstance.SetActive(false);
+                Destroy(_modelInstance);
+            }
+
+            _modelInstance = Instantiate(prefab, parent, false);
+            _currentModelPrefab = prefab;
+        }
+
+        if (VisualRenderer != null) VisualRenderer.enabled = false;
+
+        Transform visual = _modelInstance.transform;
+        if (visual.parent != parent) visual.SetParent(parent, false);
+        visual.localPosition = Vector3.zero;
+        _defaultVisualLocalRotation = prefab.transform.localRotation;
+        visual.localRotation = _defaultVisualLocalRotation;
+        visual.localScale = prefab.transform.localScale * scale;
+        _modelInstance.SetActive(true);
+        return true;
     }
-    
+
     internal bool CanMerge
     {
         get
@@ -140,12 +164,8 @@ public class GatshaBallEntity : ActiveEntity
         }
 
         if (!manager.TryGetValidBallState(newLevel, out SuikaManager.GatshaBallState state)) return false;
-        CacheVisualRotation();
         
-        if (!SetVisual(state.ModelMesh, state.ModelMatriel, state.Scale)) return false;
-
-        Transform visual = VisualFilter != null ? VisualFilter.transform : transform;
-        visual.localRotation = _defaultVisualLocalRotation;
+        if (!SetModelPrefab(state.ModelPrefab, state.Scale)) return false;
         _owner = manager;
         level = newLevel;
         Mass = state.Mass;

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using TMPro;
 
 
 public class SuikaManager : MonoBehaviour
@@ -21,8 +22,8 @@ public class SuikaManager : MonoBehaviour
     [Serializable]
     public class GatshaBallState
     {
-        public Mesh ModelMesh;
-        public Material ModelMatriel;
+        public GameObject ModelPrefab;
+        [Min(0)] public int Score;
         [Min(0.001f)] public float Scale = 1f;
         [Min(0.001f)] public float Mass = 1f;
         public float Radius
@@ -33,6 +34,21 @@ public class SuikaManager : MonoBehaviour
             }
         }
     }
+
+    [Header("Score")]
+    public const int MaxScore = 99999;
+    [SerializeField, Range(0, MaxScore)] private int currentScore;
+    public int CurrentScore => currentScore;
+    
+    [Min(0f)] public float DisplayedScoreSpeedToNewValue = 1f;
+    [SerializeField] private string displayedScore = "Score : 00000";
+    public string DisplayedScore => displayedScore;
+
+
+    private int _displayedScoreValue;
+    private int _scoreAnimationStart;
+    private float _scoreAnimationElapsed;
+    private float _scoreAnimationDuration;
 
     [Header("Player Parameters")]
     [Min(1)] public int PlayerMaxLife = 3;
@@ -67,6 +83,7 @@ public class SuikaManager : MonoBehaviour
     [Header("UI Settings")]
     public Canvas UICanvas;
     public List<GameObject> HeartUiByOrderList = new List<GameObject>();
+    public GameObject gameOverScreen;
     private Image[] _heartImages = Array.Empty<Image>();
 
     [Header("Gatsha Ball Settings")]
@@ -146,6 +163,7 @@ public class SuikaManager : MonoBehaviour
 
         completedActions = 0;
         gameTime = 0f;
+        ResetScore();
         ResetPlayerLife();
         UpdateNextActionTimer();
         actionCountdown = Mathf.Max(0f, startDelay);
@@ -172,6 +190,7 @@ public class SuikaManager : MonoBehaviour
 
     private void Update()
     {
+        UpdateDisplayedScore(Time.unscaledDeltaTime);
         if (!IsGameRunning || Time.deltaTime <= 0f) return;
         gameTime += Time.deltaTime;
         UpdateLifeRegeneration(Time.deltaTime);
@@ -217,6 +236,61 @@ public class SuikaManager : MonoBehaviour
     }
 
 
+    private void ResetScore()
+    {
+        currentScore = 0;
+        _displayedScoreValue = 0;
+        _scoreAnimationStart = 0;
+        _scoreAnimationElapsed = 0f;
+        _scoreAnimationDuration = 0f;
+        RefreshScoreText();
+    }
+
+    private void AddScore(int points)
+    {
+        if (points <= 0 || currentScore >= MaxScore) return;
+        
+        currentScore += Mathf.Min(points, MaxScore - currentScore);
+        _scoreAnimationStart = _displayedScoreValue;
+        _scoreAnimationElapsed = 0f;
+        _scoreAnimationDuration = DisplayedScoreSpeedToNewValue;
+
+        if (!IsPositiveFinite(_scoreAnimationDuration))
+        {
+            _displayedScoreValue = currentScore;
+            RefreshScoreText();
+        }
+    }
+
+    public string GetCurrentScoreText()
+    {
+        return displayedScore;
+    }
+
+    private void UpdateDisplayedScore(float deltaTime)
+    {
+        if (_displayedScoreValue == currentScore || deltaTime <= 0f) return;
+
+        _scoreAnimationElapsed += deltaTime;
+        float progress = _scoreAnimationDuration > 0f
+            ? Mathf.Clamp01(_scoreAnimationElapsed / _scoreAnimationDuration)
+            : 1f;
+        
+        int nextValue = progress >= 1f
+            ? currentScore
+            : _scoreAnimationStart + Mathf.FloorToInt(
+                (currentScore - _scoreAnimationStart) * progress);
+
+        if (nextValue == _displayedScoreValue) return;
+        _displayedScoreValue = nextValue;
+        RefreshScoreText();
+    }
+
+    public void RefreshScoreText()
+    {
+        displayedScore = "Score : " + _displayedScoreValue.ToString("D5");
+    }
+
     public void OnPlayerDamaged()
     {
         if (!IsGameRunning || IsDefeated) return;
@@ -231,8 +305,7 @@ public class SuikaManager : MonoBehaviour
 
     public void OnPlayerDeath()
     {
-        if (!IsGameRunning || IsDefeated) return;
-        SetPlayerLife(0);
+
     }
     
 
@@ -268,6 +341,8 @@ public class SuikaManager : MonoBehaviour
             IsDefeated = true;
             regenerationCooldownRemaining = 0f;
             StopGame();
+            
+            gameOverScreen.gameObject.SetActive(true); // a viré
         }
         if (defeated || playerCurrentLife >= PlayerMaxLife) regenerationProgress = 0f;
 
@@ -511,6 +586,7 @@ public class SuikaManager : MonoBehaviour
         else
         {
             _instance = this;
+            ResetScore();
             
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
@@ -567,9 +643,9 @@ public class SuikaManager : MonoBehaviour
 
     internal bool TryGetValidBallState(int level, out GatshaBallState state)
     {
-        if (!TryGetBallState(level, out state) || state.ModelMesh == null || state.ModelMatriel == null || !IsPositiveFinite(state.Scale) || !IsPositiveFinite(state.Mass) || !IsPositiveFinite(state.Radius))
+        if (!TryGetBallState(level, out state) || state.ModelPrefab == null || !IsPositiveFinite(state.Scale) || !IsPositiveFinite(state.Mass) || !IsPositiveFinite(state.Radius))
         {
-            Debug.LogError("La gatshaBall de niveau " + level + " est invalide : verifier Model Mesh, Model Renderer, Scale, Mass et Radius", this);
+            Debug.LogError("La gatshaBall de niveau " + level + " est invalide : verifier Model Prefab, Scale, Mass et Radius", this);
             return false;
         }
         
@@ -623,6 +699,8 @@ public class SuikaManager : MonoBehaviour
         if (first.Owner != this || second.Owner != this) return false;
         if (first.Level != second.Level || first.Level < 1 || first.Level > LevelCount) return false;
 
+        if (!TryGetBallState(first.Level, out GatshaBallState sourceState)) return false;
+        int mergeScore = sourceState.Score;
         int nextLevel = first.Level + 1;
         
         first.SetMergePending(true);
@@ -645,6 +723,7 @@ public class SuikaManager : MonoBehaviour
         
         RecycleBall(first);
         RecycleBall(second);
+        AddScore(mergeScore);
         return true;
     }
 }
