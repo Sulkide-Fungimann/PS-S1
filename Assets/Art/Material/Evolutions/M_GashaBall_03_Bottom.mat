@@ -117,7 +117,9 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
+    - _Step: 0.47
     - _Surface: 0
+    - _Tiling: 2
     - _WorkflowMode: 1
     - _XRMotionVectorsPass: 1
     - _ZWrite: 1
@@ -125,12 +127,14 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorSeparation: {r: 1, g: 1, b: 1, a: 1}
     - _Color_Inside: {r: 0.8190989, g: 0.514151, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Emissive: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _ball_color: {r: 0.8480457, g: 0.4292453, b: 1, a: 1}
     - _color_outside: {r: 0.77369565, g: 0.48593798, b: 0.7924528, a: 1}
-    - _texture_color: {r: 1, g: 0.71601826, b: 0.2216981, a: 1}
+    - _texture_color: {r: 1, g: 0.6113377, b: 0.23113209, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &114999656563518944
