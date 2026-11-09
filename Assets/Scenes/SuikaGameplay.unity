@@ -4409,8 +4409,7 @@ MonoBehaviour:
     Score: 40
     Scale: 8
     Mass: 1
-  gatshaActions:
-  - {fileID: 11400000, guid: b07f641e3d08db2498e4c9f5695beff5, type: 2}
+  gatshaActions: []
   gameplayCamera: {fileID: 893496322}
   ballParent: {fileID: 221683645}
   startAutomatically: 1
