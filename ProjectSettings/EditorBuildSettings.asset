@@ -5,10 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SuikaGameplay.unity
     guid: 67160ff5d63c8754f9be5ec4a13a5a18
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/GardenGameplay.unity
     guid: ee9c8d88acc8b024497f68acc709df52
   m_configObjects:

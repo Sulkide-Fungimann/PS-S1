@@ -884,6 +884,104 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &255163281
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 255163284}
+  - component: {fileID: 255163283}
+  - component: {fileID: 255163282}
+  m_Layer: 0
+  m_Name: DetectionEntity KillZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &255163282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 255163281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb93a2453f1d4654da23f50189a9777f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+--- !u!114 &255163283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 255163281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17c899a66ca6512418e885d084e060a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DetectionEntity
+  _radius: 0.2
+  visualRenderer: {fileID: 0}
+  visualFilter: {fileID: 0}
+  enableDebug: 1
+  debugOnContact: 0
+  colliderGizmoColor: {r: 1, g: 0.03137255, b: 0, a: 1}
+  shape: 1
+  width: 58
+  height: 2
+  length: 20.8
+  detectedTypes: 1
+  detectedLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  allowedTags: []
+  allowedNames: []
+  ignoreCloneSuffix: 0
+  onEnter:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 255163282}
+        m_TargetAssemblyTypeName: DestroyAbstractEntity, Assembly-CSharp
+        m_MethodName: DestroyDetectedEntity
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onStay:
+    m_PersistentCalls:
+      m_Calls: []
+  onExit:
+    m_PersistentCalls:
+      m_Calls: []
+  insideEntities: []
+  enteredEntities: []
+  exitedEntities: []
+--- !u!4 &255163284
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 255163281}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &342958579
 GameObject:
   m_ObjectHideFlags: 0
@@ -974,6 +1072,105 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1768662024}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &423612568
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 423612571}
+  - component: {fileID: 423612570}
+  - component: {fileID: 423612569}
+  m_Layer: 0
+  m_Name: DetectionEntity OnScreen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &423612569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 423612568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bd6fb28c754ebb4bbdaa177038d2585, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  newLayerName: OnScreenEntity
+--- !u!114 &423612570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 423612568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17c899a66ca6512418e885d084e060a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DetectionEntity
+  _radius: 0.2
+  visualRenderer: {fileID: 0}
+  visualFilter: {fileID: 0}
+  enableDebug: 1
+  debugOnContact: 0
+  colliderGizmoColor: {r: 0.37241387, g: 1, b: 0, a: 1}
+  shape: 1
+  width: 16
+  height: 40
+  length: 20
+  detectedTypes: 1
+  detectedLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  allowedTags: []
+  allowedNames: []
+  ignoreCloneSuffix: 0
+  onEnter:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 423612569}
+        m_TargetAssemblyTypeName: ChangeLayerAbstractEntity, Assembly-CSharp
+        m_MethodName: ChangeLayerDetectedEntity
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onStay:
+    m_PersistentCalls:
+      m_Calls: []
+  onExit:
+    m_PersistentCalls:
+      m_Calls: []
+  insideEntities: []
+  enteredEntities: []
+  exitedEntities: []
+--- !u!4 &423612571
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 423612568}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 17.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &424049862
 GameObject:
@@ -1815,7 +2012,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 716530800}
         m_TargetAssemblyTypeName: SuikaGameFonction, Assembly-CSharp
-        m_MethodName: OnPlayerDamaged
+        m_MethodName: ResetScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2059,105 +2256,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a755c28d5a818c54489fbd586238a815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SuikaGameFonction
---- !u!1 &892120785
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 892120788}
-  - component: {fileID: 892120787}
-  - component: {fileID: 892120786}
-  m_Layer: 0
-  m_Name: DetectionEntity OnScreen
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &892120786
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 892120785}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2bd6fb28c754ebb4bbdaa177038d2585, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  newLayerName: OnScreenEntity
---- !u!114 &892120787
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 892120785}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17c899a66ca6512418e885d084e060a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DetectionEntity
-  _radius: 0.2
-  visualRenderer: {fileID: 0}
-  visualFilter: {fileID: 0}
-  enableDebug: 1
-  debugOnContact: 0
-  colliderGizmoColor: {r: 0.37241387, g: 1, b: 0, a: 1}
-  shape: 1
-  width: 16
-  height: 40
-  length: 20
-  detectedTypes: 1
-  detectedLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  allowedTags: []
-  allowedNames: []
-  ignoreCloneSuffix: 0
-  onEnter:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 892120786}
-        m_TargetAssemblyTypeName: ChangeLayerAbstractEntity, Assembly-CSharp
-        m_MethodName: ChangeLayerDetectedEntity
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onStay:
-    m_PersistentCalls:
-      m_Calls: []
-  onExit:
-    m_PersistentCalls:
-      m_Calls: []
-  insideEntities: []
-  enteredEntities: []
-  exitedEntities: []
---- !u!4 &892120788
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 892120785}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 17.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &893496319
 GameObject:
   m_ObjectHideFlags: 0
@@ -2932,6 +3030,104 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1225908602}
   m_CullTransparentMesh: 1
+--- !u!1 &1249875396
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1249875399}
+  - component: {fileID: 1249875398}
+  - component: {fileID: 1249875397}
+  m_Layer: 0
+  m_Name: DetectionEntity HitZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1249875397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249875396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a755c28d5a818c54489fbd586238a815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+--- !u!114 &1249875398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249875396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17c899a66ca6512418e885d084e060a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DetectionEntity
+  _radius: 0.2
+  visualRenderer: {fileID: 0}
+  visualFilter: {fileID: 0}
+  enableDebug: 1
+  debugOnContact: 0
+  colliderGizmoColor: {r: 1, g: 0.172739, b: 0, a: 1}
+  shape: 1
+  width: 58
+  height: 2
+  length: 20
+  detectedTypes: 1
+  detectedLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  allowedTags: []
+  allowedNames: []
+  ignoreCloneSuffix: 0
+  onEnter:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1249875397}
+        m_TargetAssemblyTypeName: SuikaGameFonction, Assembly-CSharp
+        m_MethodName: OnPlayerDamaged
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onStay:
+    m_PersistentCalls:
+      m_Calls: []
+  onExit:
+    m_PersistentCalls:
+      m_Calls: []
+  insideEntities: []
+  enteredEntities: []
+  exitedEntities: []
+--- !u!4 &1249875399
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249875396}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1264513137
 GameObject:
   m_ObjectHideFlags: 0
@@ -3431,104 +3627,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!1 &1500478038
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1500478040}
-  - component: {fileID: 1500478039}
-  - component: {fileID: 1500478041}
-  m_Layer: 0
-  m_Name: DetectionEntity KillZone
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1500478039
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1500478038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17c899a66ca6512418e885d084e060a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DetectionEntity
-  _radius: 0.2
-  visualRenderer: {fileID: 0}
-  visualFilter: {fileID: 0}
-  enableDebug: 1
-  debugOnContact: 0
-  colliderGizmoColor: {r: 1, g: 0.030630242, b: 0, a: 1}
-  shape: 1
-  width: 58
-  height: 2
-  length: 20
-  detectedTypes: 1
-  detectedLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  allowedTags: []
-  allowedNames: []
-  ignoreCloneSuffix: 0
-  onEnter:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1500478041}
-        m_TargetAssemblyTypeName: DestroyAbstractEntity, Assembly-CSharp
-        m_MethodName: DestroyDetectedEntity
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onStay:
-    m_PersistentCalls:
-      m_Calls: []
-  onExit:
-    m_PersistentCalls:
-      m_Calls: []
-  insideEntities: []
-  enteredEntities: []
-  exitedEntities: []
---- !u!4 &1500478040
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1500478038}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -4, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1500478041
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1500478038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb93a2453f1d4654da23f50189a9777f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
 --- !u!4 &1545982386 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7232686745515427170, guid: 26d64856f9ee21741924f482912a3884, type: 3}
@@ -3581,8 +3679,8 @@ MonoBehaviour:
   halfWidth: 29
   halfDepth: 10
   floorY: -5
-  useCeiling: 0
-  containerHeight: 20
+  useCeiling: 1
+  containerHeight: 60
   enableDebug: 1
   floorGizmoColor: {r: 0, g: 1, b: 1, a: 1}
   lastCellSize: 0
@@ -4063,104 +4161,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1733128998}
   m_CullTransparentMesh: 1
---- !u!1 &1742372800
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1742372803}
-  - component: {fileID: 1742372802}
-  - component: {fileID: 1742372801}
-  m_Layer: 0
-  m_Name: DetectionEntity HitZone
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1742372801
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1742372800}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a755c28d5a818c54489fbd586238a815, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
---- !u!114 &1742372802
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1742372800}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17c899a66ca6512418e885d084e060a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DetectionEntity
-  _radius: 0.2
-  visualRenderer: {fileID: 0}
-  visualFilter: {fileID: 0}
-  enableDebug: 1
-  debugOnContact: 0
-  colliderGizmoColor: {r: 1, g: 0.172739, b: 0, a: 1}
-  shape: 1
-  width: 58
-  height: 2
-  length: 20
-  detectedTypes: 1
-  detectedLayers:
-    serializedVersion: 2
-    m_Bits: 128
-  allowedTags: []
-  allowedNames: []
-  ignoreCloneSuffix: 0
-  onEnter:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1742372801}
-        m_TargetAssemblyTypeName: SuikaGameFonction, Assembly-CSharp
-        m_MethodName: OnPlayerDamaged
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onStay:
-    m_PersistentCalls:
-      m_Calls: []
-  onExit:
-    m_PersistentCalls:
-      m_Calls: []
-  insideEntities: []
-  enteredEntities: []
-  exitedEntities: []
---- !u!4 &1742372803
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1742372800}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1768662023
 GameObject:
   m_ObjectHideFlags: 0
@@ -4224,7 +4224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   currentScore: 0
-  DisplayedScoreSpeedToNewValue: 1
+  DisplayedScoreSpeedToNewValue: 0.25
   displayedScore: 'Score : 00000'
   PlayerMaxLife: 3
   playerCurrentLife: 3
@@ -4259,9 +4259,41 @@ MonoBehaviour:
     Score: 40
     Scale: 2.752
     Mass: 1
+  - ModelPrefab: {fileID: 5749166733703430768, guid: 94595b1edc3566a40b120244792c2bc6, type: 3}
+    Score: 40
+    Scale: 2.752
+    Mass: 1
+  - ModelPrefab: {fileID: 5749166733703430768, guid: cc6ac73145357ff45b58a0bd907a19f0, type: 3}
+    Score: 40
+    Scale: 2.752
+    Mass: 1
+  - ModelPrefab: {fileID: 5749166733703430768, guid: aeb7f7accbc162b4187737818abf2d0c, type: 3}
+    Score: 40
+    Scale: 2.752
+    Mass: 1
+  - ModelPrefab: {fileID: 5749166733703430768, guid: ff9d892e7d74c63449175370390b60f4, type: 3}
+    Score: 40
+    Scale: 2.752
+    Mass: 1
+  - ModelPrefab: {fileID: 5749166733703430768, guid: 50b4180eda9dd6d458ffc4b10bfa2d9f, type: 3}
+    Score: 40
+    Scale: 2.752
+    Mass: 1
+  - ModelPrefab: {fileID: 5749166733703430768, guid: 41169cc52eab9a4428fbd710f7cc039f, type: 3}
+    Score: 40
+    Scale: 2.752
+    Mass: 1
   gatshaActions:
-  - {fileID: 11400000, guid: 14f180d4e1688364785a6c2711ff3fd2, type: 2}
-  - {fileID: 11400000, guid: 867054b1320b77947aa3c86774903f04, type: 2}
+  - {fileID: 11400000, guid: 081e9c9104ef6f543b64dc181c86c6ab, type: 2}
+  - {fileID: 11400000, guid: 25a8cc569d2aba44181223934f90a01c, type: 2}
+  - {fileID: 11400000, guid: 9a5f13e15a1a5d24abaca9f29ddb6133, type: 2}
+  - {fileID: 11400000, guid: e3e87a1217e153a489cb58172072e8c0, type: 2}
+  - {fileID: 11400000, guid: 0d57fed2e9a1a334ab0cf66e11469ef8, type: 2}
+  - {fileID: 11400000, guid: a399467f159c7a7428f95af353f69ab9, type: 2}
+  - {fileID: 11400000, guid: 2f26630e735996c4ab11895b9a3f4d90, type: 2}
+  - {fileID: 11400000, guid: f46ba2e9311b7ba4a974da55bcd2eee7, type: 2}
+  - {fileID: 11400000, guid: 5e606b1531942da44b66f3a1f657bec8, type: 2}
+  - {fileID: 11400000, guid: 7bb8e3a2504b7cd41b1381595264fc82, type: 2}
   gameplayCamera: {fileID: 893496322}
   ballParent: {fileID: 221683645}
   startAutomatically: 1
@@ -5534,8 +5566,8 @@ SceneRoots:
   - {fileID: 1402017022}
   - {fileID: 1633840788}
   - {fileID: 1264513141}
-  - {fileID: 1500478040}
-  - {fileID: 1742372803}
-  - {fileID: 892120788}
+  - {fileID: 1249875399}
+  - {fileID: 255163284}
+  - {fileID: 423612571}
   - {fileID: 1768662024}
   - {fileID: 1838783178}
