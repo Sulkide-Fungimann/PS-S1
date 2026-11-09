@@ -100,10 +100,10 @@ Material:
     m_Ints: []
     m_Floats:
     - _AddPrecomputedVelocity: 0
-    - _Alpha: 0.4
+    - _Alpha: 0.3
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _AngleOffset: 12.59
+    - _AngleOffset: 15.3
     - _Base_Gradient_Power: 1
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
@@ -119,8 +119,8 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
-    - _FresnelPower: -0.16
-    - _GlitterContrast: 30
+    - _FresnelPower: 1
+    - _GlitterContrast: 50
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -137,7 +137,7 @@ Material:
     - _SrcBlendAlpha: 1
     - _Surface: 0
     - _Tiling: 475.5
-    - _TransparentPlanes: 0
+    - _TransparentPlanes: 3
     - _WorkflowMode: 1
     - _XRMotionVectorsPass: 1
     - _ZTest: 4
@@ -146,12 +146,12 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 0.6084906, b: 0.98354995, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color1: {r: 1, g: 0.43529412, b: 0.99999243, a: 1}
-    - _Color2: {r: 0.5651253, g: 0.16140087, b: 0.8773585, a: 1}
+    - _Color1: {r: 1, g: 0.6462264, b: 1, a: 1}
+    - _Color2: {r: 1, g: 0.7216981, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Eyes: {r: 0.24528301, g: 0.09140263, b: 0.09140263, a: 1}
     - _EyesReflection: {r: 1, g: 1, b: 1, a: 1}
-    - _GlitterColor: {r: 7.552344, g: 4.59553, b: 7.114296, a: 1}
+    - _GlitterColor: {r: 71.88894, g: 55.951298, b: 70.662964, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

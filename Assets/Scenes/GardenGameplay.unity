@@ -376,7 +376,7 @@ Light:
   serializedVersion: 12
   m_Type: 1
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.3
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -2402,6 +2402,10 @@ MonoBehaviour:
   restitution: 0.8
   substeps: 3
   solverIterations: 6
+  adaptiveSubsteps: 1
+  maximumAdaptiveSubsteps: 128
+  maximumTravelPerRadius: 0.5
+  lastSubstepCount: 0
   bounceThreshold: 0.5
   useWorldBounds: 1
   captureIncomingEntities: 1
