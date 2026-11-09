@@ -3666,7 +3666,7 @@ MonoBehaviour:
   debugOnContact: 0
   colliderGizmoColor: {r: 0, g: 0, b: 1, a: 1}
   shape: 1
-  width: 2
+  width: 0.1
   height: 25
   length: 20
 --- !u!4 &1402017022
@@ -3678,7 +3678,7 @@ Transform:
   m_GameObject: {fileID: 1402017018}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8, y: 10, z: 0}
+  m_LocalPosition: {x: -6.72, y: 10, z: 0}
   m_LocalScale: {x: 2, y: 25, z: 20}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4114,7 +4114,7 @@ MonoBehaviour:
   debugOnContact: 0
   colliderGizmoColor: {r: 0, g: 0, b: 1, a: 1}
   shape: 1
-  width: 2
+  width: 0.1
   height: 25
   length: 20
 --- !u!4 &1633840788
@@ -4126,7 +4126,7 @@ Transform:
   m_GameObject: {fileID: 1633840784}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8, y: 10, z: 0}
+  m_LocalPosition: {x: 7.05, y: 10, z: 0}
   m_LocalScale: {x: 2, y: 25, z: 20}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4406,7 +4406,7 @@ MonoBehaviour:
     Scale: 8
     Mass: 1
   gatshaActions:
-  - {fileID: 11400000, guid: 976d4707b16ae69428e68438cab6988e, type: 2}
+  - {fileID: 11400000, guid: b07f641e3d08db2498e4c9f5695beff5, type: 2}
   gameplayCamera: {fileID: 893496322}
   ballParent: {fileID: 221683645}
   startAutomatically: 1
