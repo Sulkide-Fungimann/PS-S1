@@ -2557,6 +2557,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -1.15
       objectReference: {fileID: 0}
+    - target: {fileID: 2916385517654000960, guid: 26d64856f9ee21741924f482912a3884, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.17
+      objectReference: {fileID: 0}
     - target: {fileID: 3835400852720367720, guid: 26d64856f9ee21741924f482912a3884, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -2587,7 +2591,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7232686745515427170, guid: 26d64856f9ee21741924f482912a3884, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.7
+      value: 0.81
       objectReference: {fileID: 0}
     - target: {fileID: 7232686745515427170, guid: 26d64856f9ee21741924f482912a3884, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4637,7 +4641,7 @@ MonoBehaviour:
   colliderGizmoColor: {r: 0, g: 0, b: 1, a: 1}
   shape: 1
   width: 18
-  height: 2
+  height: 2.85
   length: 20
 --- !u!4 &1264513141
 Transform:

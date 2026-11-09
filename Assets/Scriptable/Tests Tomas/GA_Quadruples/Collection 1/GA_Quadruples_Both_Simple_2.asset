@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GatshaActions
   UseMinimumActionCount: 0
   MinimumActionCount: 3
-  UseMaximumActionCount: 1
+  UseMaximumActionCount: 0
   MaximumActionCount: 50
   Actions:
   - DelayBefore:
