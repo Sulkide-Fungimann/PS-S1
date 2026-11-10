@@ -103,7 +103,6 @@ public class PhysicsManager : MonoBehaviour
     
     
     private readonly List<ActiveEntity> _allActiveEntitiesRegistered = new List<ActiveEntity>(); 
-    // Lecture seule, utilisee pour choisir une boule au debut du toucher.
     public IReadOnlyList<ActiveEntity> ActiveEntities => _allActiveEntitiesRegistered;
 
     private readonly List<ActiveEntity> _simulationEntities = new List<ActiveEntity>(128); 
@@ -205,9 +204,7 @@ public class PhysicsManager : MonoBehaviour
         AddDetectionCandidates(_allActiveEntitiesRegistered);
         AddDetectionCandidates(_allPassiveEntitiesRegistered);
         AddDetectionCandidates(_allSoftBodyEntitiesRegistered);
-
-        // Calculer toutes les zones avant les callbacks, qui peuvent detruire,
-        // creer ou desactiver des entites et donc modifier les registres.
+        
         for (int i = 0; i < _detectionEntities.Count; i++)
             _detectionEntities[i].Evaluate(_detectionCandidates);
         for (int i = 0; i < _detectionEntities.Count; i++)
@@ -215,7 +212,6 @@ public class PhysicsManager : MonoBehaviour
             DetectionEntity zone = _detectionEntities[i];
             if (zone != null && zone.isActiveAndEnabled) zone.DispatchEvents();
         }
-        // Ne pas conserver les references aux objets detruits par un evenement.
         _detectionCandidates.Clear();
         _detectionEntities.Clear();
     }
@@ -318,7 +314,7 @@ public class PhysicsManager : MonoBehaviour
             minRadius = Mathf.Min(minRadius, entity.Radius);
             if (!entity.IsKinematic) maxSpeed = Mathf.Max(maxSpeed, entity.Velocity.magnitude);
         }
-        // Facteur 2 : deux boules peuvent se rapprocher simultanement.
+  
         float travel = (2f * maxSpeed + gravity.magnitude * Time.fixedDeltaTime) * Time.fixedDeltaTime;
         float allowedTravel = Mathf.Max(0.0001f, minRadius * maximumTravelPerRadius);
         int limit = Mathf.Max(baseline, maximumAdaptiveSubsteps);
@@ -428,7 +424,7 @@ public class PhysicsManager : MonoBehaviour
 
     private void HandlePassiveCollision(ActiveEntity active, PassiveEntity passive)
     {
-        if (active.IsKinematic) return;
+        if (active.IsKinematic || !CanLayersCollide(active, passive)) return;
         Vector3 freePositionAxes = new Vector3(active.PositionConstraint.X ? 0f : 1f, active.PositionConstraint.Y ? 0f : 1f, active.PositionConstraint.Z ? 0f : 1f);
         if (!passive.TryGetContact(active.Position, active.Radius, active.Velocity, freePositionAxes, out Vector3 normal, out float penetration, out Vector3 contactPoint)) return;
 
@@ -449,6 +445,8 @@ public class PhysicsManager : MonoBehaviour
     
     private void HandleActiveCollision(ActiveEntity firstEntity, ActiveEntity nextEntity)
     {
+        if (!CanLayersCollide(firstEntity, nextEntity)) return;
+
         Vector3 delta = nextEntity.Position - firstEntity.Position;
         float distanceSquared = delta.sqrMagnitude;
         float radiusSum = firstEntity.Radius + nextEntity.Radius;
@@ -511,6 +509,12 @@ public class PhysicsManager : MonoBehaviour
         if (!nextEntity.IsKinematic) nextEntity.Velocity += velocityResponse2 * impulse;
     }
 
+    // Utilise le layer du GameObject portant chaque entite, sans Collider Unity requis.
+    private static bool CanLayersCollide(AbstractEntity first, AbstractEntity second)
+    {
+        return !Physics.GetIgnoreLayerCollision(first.gameObject.layer, second.gameObject.layer);
+    }
+
     private static Vector3 FreeAxes(Vector3 value, ActiveEntity.Constrain constraint)
     {
         return new Vector3(constraint.X ? 0f : value.x,
@@ -549,6 +553,8 @@ public class PhysicsManager : MonoBehaviour
         if (receiver == null || other == null || !receiver.isActiveAndEnabled) return;
 
         if (!other.isActiveAndEnabled) return;
+        // Un callback precedent peut avoir modifie un layer ou la matrice.
+        if (!CanLayersCollide(receiver, other)) return;
 
         receiver.OnCollision(other, point);
         

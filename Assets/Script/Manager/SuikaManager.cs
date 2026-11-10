@@ -50,6 +50,24 @@ public class SuikaManager : MonoBehaviour
     private float _scoreAnimationElapsed;
     private float _scoreAnimationDuration;
 
+    [Header("Tokens - paliers de score")]
+    [Range(1, MaxScore)] public int BaseTokenStart = 1000;
+    [Min(1f)] public float MultTokenStart = 2f;
+    [Min(0)] public int MultTokenStep = 100;
+    public Slider TokenSlider;
+
+    [SerializeField, Min(0)] private int token;
+    [SerializeField] private int currentTokenThreshold;
+    [SerializeField] private int nextTokenThreshold;
+    [SerializeField] private bool isTokenProgressComplete;
+
+    public int Token => token;
+    public int CurrentTokenThreshold => currentTokenThreshold;
+    public int NextTokenThreshold => nextTokenThreshold;
+    public bool IsTokenProgressComplete => isTokenProgressComplete;
+    public float TokenProgress => isTokenProgressComplete ? 1f
+        : Mathf.InverseLerp(currentTokenThreshold, nextTokenThreshold, currentScore);
+
     [Header("Player Parameters")]
     [Min(1)] public int PlayerMaxLife = 3;
     [SerializeField] private int playerCurrentLife;
@@ -244,6 +262,7 @@ public class SuikaManager : MonoBehaviour
         _scoreAnimationElapsed = 0f;
         _scoreAnimationDuration = 0f;
         RefreshScoreText();
+        ResetTokens();
     }
 
     private void AddScore(int points)
@@ -251,6 +270,7 @@ public class SuikaManager : MonoBehaviour
         if (points <= 0 || currentScore >= MaxScore) return;
         
         currentScore += Mathf.Min(points, MaxScore - currentScore);
+        UpdateTokensFromScore();
         _scoreAnimationStart = _displayedScoreValue;
         _scoreAnimationElapsed = 0f;
         _scoreAnimationDuration = DisplayedScoreSpeedToNewValue;
@@ -260,6 +280,62 @@ public class SuikaManager : MonoBehaviour
             _displayedScoreValue = currentScore;
             RefreshScoreText();
         }
+    }
+
+    private void ResetTokens()
+    {
+        token = 0;
+        currentTokenThreshold = 0;
+        nextTokenThreshold = Mathf.Clamp(BaseTokenStart, 1, MaxScore);
+        isTokenProgressComplete = false;
+        RefreshTokenSlider();
+    }
+
+    private void UpdateTokensFromScore()
+    {
+        while (!isTokenProgressComplete && currentScore >= nextTokenThreshold)
+        {
+            token++;
+            if (nextTokenThreshold == MaxScore)
+            {
+                isTokenProgressComplete = true;
+                break;
+            }
+
+            currentTokenThreshold = nextTokenThreshold;
+            nextTokenThreshold = CalculateNextTokenThreshold(currentTokenThreshold);
+        }
+
+        RefreshTokenSlider();
+    }
+
+    private int CalculateNextTokenThreshold(int previousThreshold)
+    {
+        double multiplier = IsPositiveFinite(MultTokenStart)
+            ? Math.Max(1d, MultTokenStart) : 1d;
+        double threshold = Math.Ceiling(
+            previousThreshold * multiplier + Math.Max(0, MultTokenStep));
+
+
+        return (int)Math.Min(MaxScore, Math.Max(previousThreshold + 1d, threshold));
+    }
+
+    public void RefreshTokenSlider()
+    {
+        if (TokenSlider == null) return;
+        TokenSlider.interactable = false;
+        TokenSlider.wholeNumbers = true;
+
+        TokenSlider.minValue = 0f;
+        TokenSlider.maxValue = nextTokenThreshold;
+        TokenSlider.minValue = currentTokenThreshold;
+        TokenSlider.SetValueWithoutNotify(currentScore);
+    }
+
+    [UnityEngine.Scripting.Preserve]
+    public string GetTokenText()
+    {
+        return token.ToString();
     }
 
     public string GetCurrentScoreText()

@@ -55,5 +55,12 @@ public class SuikaGameFonction : MonoBehaviour
         if (!_unclock) return "Score : 00000";
         return currentSuikaManager != null ? currentSuikaManager.GetCurrentScoreText() : "Score : 00000";
     }
+
+    [UnityEngine.Scripting.Preserve]
+    public string GetNextTokenText()
+    {
+        if (!_unclock) return "Token : 0";
+        return "Token : " + currentSuikaManager.Token;
+    }
     
 }
