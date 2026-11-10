@@ -6774,7 +6774,27 @@ MonoBehaviour:
     Score: 40
     Scale: 8
     Mass: 1
-  gatshaActions: []
+  gatshaActions:
+  - {fileID: 11400000, guid: fae38eda1908f4a41880294ce3bbbf4e, type: 2}
+  - {fileID: 11400000, guid: b07f641e3d08db2498e4c9f5695beff5, type: 2}
+  - {fileID: 11400000, guid: dd37d3dd6383f2847baab0c7b7f2a543, type: 2}
+  - {fileID: 11400000, guid: 21daf075267659d429552a77fd31e7f4, type: 2}
+  - {fileID: 11400000, guid: ab463efaed1eb0a4ab92b61aaec78ef7, type: 2}
+  - {fileID: 11400000, guid: 6fd0364f05beedd47ab05555661f9fcc, type: 2}
+  - {fileID: 11400000, guid: 081e9c9104ef6f543b64dc181c86c6ab, type: 2}
+  - {fileID: 11400000, guid: 25a8cc569d2aba44181223934f90a01c, type: 2}
+  - {fileID: 11400000, guid: 9a5f13e15a1a5d24abaca9f29ddb6133, type: 2}
+  - {fileID: 11400000, guid: e3e87a1217e153a489cb58172072e8c0, type: 2}
+  - {fileID: 11400000, guid: 0d57fed2e9a1a334ab0cf66e11469ef8, type: 2}
+  - {fileID: 11400000, guid: a399467f159c7a7428f95af353f69ab9, type: 2}
+  - {fileID: 11400000, guid: 2f26630e735996c4ab11895b9a3f4d90, type: 2}
+  - {fileID: 11400000, guid: f46ba2e9311b7ba4a974da55bcd2eee7, type: 2}
+  - {fileID: 11400000, guid: 5e606b1531942da44b66f3a1f657bec8, type: 2}
+  - {fileID: 11400000, guid: 7bb8e3a2504b7cd41b1381595264fc82, type: 2}
+  - {fileID: 11400000, guid: d3226ebd6a029ef4e97f0dc71cc8fac9, type: 2}
+  - {fileID: 11400000, guid: e87bc04e79edd29488e075fe840c8612, type: 2}
+  - {fileID: 11400000, guid: 5104c09a5a6695e4296b3488fecb2221, type: 2}
+  - {fileID: 11400000, guid: a5db70da1c5a86c4894742e840e0fd23, type: 2}
   gameplayCamera: {fileID: 893496322}
   ballParent: {fileID: 221683645}
   startAutomatically: 1
