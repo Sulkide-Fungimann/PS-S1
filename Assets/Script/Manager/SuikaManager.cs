@@ -68,7 +68,21 @@ public class SuikaManager : MonoBehaviour
     public float TokenProgress => isTokenProgressComplete ? 1f
         : Mathf.InverseLerp(currentTokenThreshold, nextTokenThreshold, currentScore);
 
-    [Header("Player Parameters")]
+    [Header("Game Over conditions")]
+    public GameObject gameOverScreen;
+    [Space(25)]
+    public bool UseGameTimer;
+    [Min(0.01f)] public float GameDuration = 120f;
+    public Slider TimerSlider;
+    [SerializeField, Min(0f)] private float remainingGameTime;
+    private float _initialGameDuration;
+
+    [Space (25)]
+    public bool UseLifeSystem;
+    public float RemainingGameTime => remainingGameTime;
+    public float GameTimerProgress => _initialGameDuration > 0f
+        ? Mathf.Clamp01(remainingGameTime / _initialGameDuration) : 0f;
+    
     [Min(1)] public int PlayerMaxLife = 3;
     [SerializeField] private int playerCurrentLife;
 
@@ -91,17 +105,13 @@ public class SuikaManager : MonoBehaviour
     public float RegenerationCooldownRemaining => regenerationCooldownRemaining;
     public float TimeWithoutDamage => timeWithoutDamage;
     public bool IsDefeated { get; private set; }
-    public bool IsRegenerationBoosted => timeWithoutDamage >= Mathf.Max(0f, MultRegenerationTimer);
+    public bool IsRegenerationBoosted => UseLifeSystem && timeWithoutDamage >= Mathf.Max(0f, MultRegenerationTimer);
 
     [Serializable] public class LifeEvent : UnityEvent<int> { }
     [Serializable] public class RegenerationEvent : UnityEvent<float> { }
-
-
-
-    [Header("UI Settings")]
-    public Canvas UICanvas;
+    
     public List<GameObject> HeartUiByOrderList = new List<GameObject>();
-    public GameObject gameOverScreen;
+
     private Image[] _heartImages = Array.Empty<Image>();
 
     [Header("Gatsha Ball Settings")]
@@ -169,6 +179,11 @@ public class SuikaManager : MonoBehaviour
     {
         _hasStarted = true;
         if (startAutomatically) StartGame();
+        else
+        {
+            ResetPlayerLife();
+            ResetGameTimer();
+        }
     }
 
     public void StartGame()
@@ -182,7 +197,10 @@ public class SuikaManager : MonoBehaviour
         completedActions = 0;
         gameTime = 0f;
         ResetScore();
+        IsDefeated = false;
+        if (gameOverScreen != null) gameOverScreen.SetActive(false);
         ResetPlayerLife();
+        ResetGameTimer();
         UpdateNextActionTimer();
         actionCountdown = Mathf.Max(0f, startDelay);
         IsGameRunning = true;
@@ -196,6 +214,14 @@ public class SuikaManager : MonoBehaviour
 
         PreparePool();
         IsSpawning = true;
+
+        TimerSlider.gameObject.SetActive(UseGameTimer);
+
+        foreach (var heart in HeartUiByOrderList)
+        {
+            heart.transform.parent.gameObject.SetActive(UseLifeSystem);
+        }
+
     }
 
     public void StopGame()
@@ -211,6 +237,8 @@ public class SuikaManager : MonoBehaviour
         UpdateDisplayedScore(Time.unscaledDeltaTime);
         if (!IsGameRunning || Time.deltaTime <= 0f) return;
         gameTime += Time.deltaTime;
+        UpdateGameTimer(Time.deltaTime);
+        if (!IsGameRunning) return;
         UpdateLifeRegeneration(Time.deltaTime);
         if (!IsSpawning) return;
 
@@ -253,6 +281,48 @@ public class SuikaManager : MonoBehaviour
             actionCountdown = GetActionDelay();
     }
 
+
+    private void ResetGameTimer()
+    {
+        _initialGameDuration = IsPositiveFinite(GameDuration)
+            ? Mathf.Max(0.01f, GameDuration) : 120f;
+        remainingGameTime = _initialGameDuration;
+        if (TimerSlider != null)
+        {
+            TimerSlider.gameObject.SetActive(UseGameTimer);
+            TimerSlider.interactable = false;
+            TimerSlider.wholeNumbers = false;
+            TimerSlider.minValue = 0f;
+            TimerSlider.maxValue = 1f;
+        }
+        RefreshTimerSlider();
+    }
+
+    private void UpdateGameTimer(float deltaTime)
+    {
+        if (!UseGameTimer || IsDefeated) return;
+        remainingGameTime = Mathf.Max(0f, remainingGameTime - deltaTime);
+        RefreshTimerSlider();
+        if (remainingGameTime <= 0f) EndGame();
+    }
+
+    public void RefreshTimerSlider()
+    {
+        if (TimerSlider != null)
+            TimerSlider.SetValueWithoutNotify(GameTimerProgress);
+    }
+
+    private void EndGame()
+    {
+        if (IsDefeated) return;
+        IsDefeated = true;
+        regenerationCooldownRemaining = 0f;
+        regenerationProgress = 0f;
+        StopGame();
+        UpdateHeartUI();
+        if (gameOverScreen != null) gameOverScreen.SetActive(true);
+        OnPlayerDeath();
+    }
 
     private void ResetScore()
     {
@@ -369,13 +439,13 @@ public class SuikaManager : MonoBehaviour
 
     public void OnPlayerDamaged()
     {
-        if (!IsGameRunning || IsDefeated) return;
+        if (!UseLifeSystem || !IsGameRunning || IsDefeated) return;
         SetPlayerLife(playerCurrentLife - 1);
     }
 
     public void OnPlayerHeal()
     {
-        if (!IsGameRunning || IsDefeated) return;
+        if (!UseLifeSystem || !IsGameRunning || IsDefeated) return;
         SetPlayerLife(playerCurrentLife + 1);
     }
 
@@ -398,7 +468,7 @@ public class SuikaManager : MonoBehaviour
 
     private void SetPlayerLife(int value)
     {
-        if (IsDefeated) return;
+        if (!UseLifeSystem || IsDefeated) return;
         value = Mathf.Clamp(value, 0, Mathf.Max(1, PlayerMaxLife));
         if (value == playerCurrentLife) return;
 
@@ -412,14 +482,7 @@ public class SuikaManager : MonoBehaviour
         }
 
         bool defeated = playerCurrentLife == 0;
-        if (defeated)
-        {
-            IsDefeated = true;
-            regenerationCooldownRemaining = 0f;
-            StopGame();
-            
-            gameOverScreen.gameObject.SetActive(true); // a viré
-        }
+        if (defeated) EndGame();
         if (defeated || playerCurrentLife >= PlayerMaxLife) regenerationProgress = 0f;
 
         UpdateHeartUI();
@@ -427,7 +490,7 @@ public class SuikaManager : MonoBehaviour
 
     private void UpdateLifeRegeneration(float deltaTime)
     {
-        if (IsDefeated) return;
+        if (!UseLifeSystem || IsDefeated) return;
 
         float previousTimeWithoutDamage = timeWithoutDamage;
         timeWithoutDamage += deltaTime;
@@ -470,6 +533,7 @@ public class SuikaManager : MonoBehaviour
         {
             GameObject heart = HeartUiByOrderList[i];
             if (heart == null) continue;
+            heart.SetActive(UseLifeSystem);
             Image heartImage = heart.GetComponent<Image>();
             _heartImages[i] = heartImage;
             if (heartImage == null)
@@ -486,7 +550,7 @@ public class SuikaManager : MonoBehaviour
 
     public float GetHeartFillAmount(int heartIndex)
     {
-        if (heartIndex < 0 || heartIndex >= PlayerMaxLife) return 0f;
+        if (!UseLifeSystem || heartIndex < 0 || heartIndex >= PlayerMaxLife) return 0f;
         if (heartIndex < playerCurrentLife) return 1f;
         if (heartIndex == playerCurrentLife && !IsDefeated) return regenerationProgress;
         return 0f;
@@ -770,6 +834,7 @@ public class SuikaManager : MonoBehaviour
 
     public bool TryMerge(GatshaBallEntity first, GatshaBallEntity second, Vector3 contactPoint)
     {
+        if (IsDefeated) return false;
         if (first == null || second == null || first == second) return false;
         if (!first.CanMerge || !second.CanMerge) return false;
         if (first.Owner != this || second.Owner != this) return false;
