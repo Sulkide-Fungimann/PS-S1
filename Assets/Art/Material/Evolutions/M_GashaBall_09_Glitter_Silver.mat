@@ -33,7 +33,7 @@ Material:
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
-  m_LockedProperties: 
+  m_LockedProperties: _Base_Color_2
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -110,7 +110,7 @@ Material:
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _Base_Gradient_Power: 1
+    - _Base_Gradient_Power: -2.76
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -124,12 +124,12 @@ Material:
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
     - _Fresnel_Power: 1.8
-    - _Glitter_Offset: 0.45
+    - _Glitter_Offset: 0.22
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0
-    - _Noice_Rotation_Speed: 1.16
+    - _Noice_Rotation_Speed: -2.29
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0

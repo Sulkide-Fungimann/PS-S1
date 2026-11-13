@@ -119,6 +119,95 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &92413033
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: b196c80bbdd23c349a3eb909b81740c8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b196c80bbdd23c349a3eb909b81740c8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b196c80bbdd23c349a3eb909b81740c8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b196c80bbdd23c349a3eb909b81740c8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b196c80bbdd23c349a3eb909b81740c8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b196c80bbdd23c349a3eb909b81740c8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b196c80bbdd23c349a3eb909b81740c8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b196c80bbdd23c349a3eb909b81740c8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b196c80bbdd23c349a3eb909b81740c8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b196c80bbdd23c349a3eb909b81740c8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b196c80bbdd23c349a3eb909b81740c8, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8465009187909513109, guid: b196c80bbdd23c349a3eb909b81740c8, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8465009187909513109, guid: b196c80bbdd23c349a3eb909b81740c8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 362255db4e222e34f925a29b2aae7a34, type: 2}
+    - target: {fileID: -8465009187909513109, guid: b196c80bbdd23c349a3eb909b81740c8, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 830e9c0fd51a7ae43ad365321d55027e, type: 2}
+    - target: {fileID: 919132149155446097, guid: b196c80bbdd23c349a3eb909b81740c8, type: 3}
+      propertyPath: m_Name
+      value: DM_GashaBall_High
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b196c80bbdd23c349a3eb909b81740c8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2699281959634198630, guid: b196c80bbdd23c349a3eb909b81740c8, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2699281959634198630, guid: b196c80bbdd23c349a3eb909b81740c8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: ce5bace7517d7664aa3f936621829f72, type: 2}
+    - target: {fileID: 2699281959634198630, guid: b196c80bbdd23c349a3eb909b81740c8, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: fcf5046d24d4ca64c8cb2e287d9a8246, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b196c80bbdd23c349a3eb909b81740c8, type: 3}
 --- !u!1 &319163997
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,7 +223,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &319163998
 Transform:
   m_ObjectHideFlags: 0
@@ -348,6 +437,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: bf9477d798b3529448593e5a691a6590, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 8a865f024eee7a24abab0351dc086c06, type: 2}
     - target: {fileID: 919132149155446097, guid: bf9477d798b3529448593e5a691a6590, type: 3}
       propertyPath: m_Name
       value: DM_Squishy_Serie01_Cat (2)
@@ -644,6 +737,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 776a55125fbff7d4a91c98eb50272714, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 926d053d9c7531c4486a849b25087f3b, type: 2}
     - target: {fileID: 919132149155446097, guid: 776a55125fbff7d4a91c98eb50272714, type: 3}
       propertyPath: m_Name
       value: DM_Squishy_Series01_Mouse (2)
@@ -722,6 +819,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 60f5aadc4137d7642a1569191b868222, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e7e155bacd45bd648b16c4b963a098c2, type: 2}
     - target: {fileID: 919132149155446097, guid: 60f5aadc4137d7642a1569191b868222, type: 3}
       propertyPath: m_Name
       value: DM_Squishy_Serie01_Rabbit (1)
@@ -1080,6 +1181,18 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 60f5aadc4137d7642a1569191b868222, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 60f5aadc4137d7642a1569191b868222, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 750c3353e18e856409077022eff698d5, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 60f5aadc4137d7642a1569191b868222, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 52fff261abadccf4cb3ee015366856e2, type: 2}
     - target: {fileID: 919132149155446097, guid: 60f5aadc4137d7642a1569191b868222, type: 3}
       propertyPath: m_Name
       value: DM_Squishy_Serie01_Rabbit
@@ -1441,6 +1554,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: bf9477d798b3529448593e5a691a6590, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a1571dff7a1e63543afbf28b6c4b7568, type: 2}
     - target: {fileID: 919132149155446097, guid: bf9477d798b3529448593e5a691a6590, type: 3}
       propertyPath: m_Name
       value: DM_Squishy_Serie01_Cat (1)
@@ -1519,6 +1636,18 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 776a55125fbff7d4a91c98eb50272714, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 776a55125fbff7d4a91c98eb50272714, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 3f46be5b590c53449aad8b299539486b, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 776a55125fbff7d4a91c98eb50272714, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 61c2e1046630d1141811036191931734, type: 2}
     - target: {fileID: 919132149155446097, guid: 776a55125fbff7d4a91c98eb50272714, type: 3}
       propertyPath: m_Name
       value: DM_Squishy_Series01_Mouse
@@ -1659,6 +1788,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 776a55125fbff7d4a91c98eb50272714, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d3ecfbc7dea392e46b0dbe8b45af04ee, type: 2}
     - target: {fileID: 919132149155446097, guid: 776a55125fbff7d4a91c98eb50272714, type: 3}
       propertyPath: m_Name
       value: DM_Squishy_Series01_Mouse (1)
@@ -1918,6 +2051,18 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: bf9477d798b3529448593e5a691a6590, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: bf9477d798b3529448593e5a691a6590, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 107c020c96505d54194687ec1ad38f1b, type: 2}
+    - target: {fileID: -7511558181221131132, guid: bf9477d798b3529448593e5a691a6590, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c8dca33ae1434ed4cb6194718f3695ea, type: 2}
     - target: {fileID: 919132149155446097, guid: bf9477d798b3529448593e5a691a6590, type: 3}
       propertyPath: m_Name
       value: DM_Squishy_Serie01_Cat
@@ -1996,6 +2141,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 60f5aadc4137d7642a1569191b868222, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 93e49a2cc94e0934a851e2a82aceac13, type: 2}
     - target: {fileID: 919132149155446097, guid: 60f5aadc4137d7642a1569191b868222, type: 3}
       propertyPath: m_Name
       value: DM_Squishy_Serie01_Rabbit (2)
@@ -2666,3 +2815,4 @@ SceneRoots:
   - {fileID: 1323859230}
   - {fileID: 1494990082}
   - {fileID: 319163998}
+  - {fileID: 92413033}
