@@ -143,11 +143,11 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Base_Color_1: {r: 1, g: 0.19339621, b: 0.99711615, a: 1}
-    - _Base_Color_2: {r: 0.39999998, g: 0.9647854, b: 1, a: 1}
+    - _Base_Color_1: {r: 1, g: 0.9027169, b: 0.19215685, a: 1}
+    - _Base_Color_2: {r: 1, g: 0.5576572, b: 0.0047169924, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Eyes: {r: 0.754717, g: 0.32395872, b: 0.754717, a: 1}
+    - _Eyes: {r: 0.6415094, g: 0.6112253, b: 0.2208971, a: 1}
     - _EyesReflection: {r: 1, g: 1, b: 1, a: 1}
     - _Fresnel_Color: {r: 0, g: 0, b: 0, a: 1}
     - _Glitter_Color: {r: 7.129739, g: 1.1770793, b: 3.554422, a: 1}

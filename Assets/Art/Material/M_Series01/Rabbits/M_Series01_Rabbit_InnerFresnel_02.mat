@@ -106,7 +106,7 @@ Material:
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _Base_Gradient_Power: 1.5
+    - _Base_Gradient_Power: 1.8
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -119,7 +119,7 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
-    - _Fresnel_Power: 4
+    - _Fresnel_Power: 20
     - _Glitter_Offset: 0.1
     - _GlossMapScale: 0
     - _Glossiness: 0
@@ -143,13 +143,13 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Base_Color_1: {r: 0.35085338, g: 0.11792451, b: 1, a: 1}
-    - _Base_Color_2: {r: 1, g: 0.94404614, b: 0.25943398, a: 1}
+    - _Base_Color_1: {r: 0.24865606, g: 0.16509432, b: 1, a: 1}
+    - _Base_Color_2: {r: 0.3443396, g: 0.981499, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Eyes: {r: 0.44292587, g: 0.24256852, b: 0.745283, a: 1}
+    - _Eyes: {r: 0.334088, g: 0.2719384, b: 0.5943396, a: 1}
     - _EyesReflection: {r: 1, g: 1, b: 1, a: 1}
-    - _Fresnel_Color: {r: 0.66667634, g: 0.43921554, b: 5.9921575, a: 1}
+    - _Fresnel_Color: {r: 10.680627, g: 10.680627, b: 10.680627, a: 0}
     - _Glitter_Color: {r: 9.51876, g: 9.51876, b: 9.51876, a: 1}
     - _Noise_Scale: {r: 1, g: 1, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}

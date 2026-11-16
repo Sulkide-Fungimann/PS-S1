@@ -102,7 +102,7 @@ Material:
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _Base_Gradient_Power: 0.8
+    - _Base_Gradient_Power: 0.7
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -139,14 +139,14 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Base_Color_1: {r: 1.6168754, g: 0.6891243, b: 1.6792452, a: 1}
-    - _Base_Color_2: {r: 0.46666667, g: 0.3726415, b: 1, a: 1}
+    - _Base_Color_1: {r: 0.34745458, g: 1.2075472, b: 1.0846769, a: 1}
+    - _Base_Color_2: {r: 0.61333424, g: 0.37254906, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Eyes: {r: 0.88097316, g: 0.51998043, b: 0.8962264, a: 0}
+    - _Eyes: {r: 0.4448202, g: 0.7122299, b: 0.7924528, a: 1}
     - _EyesReflection: {r: 1, g: 1, b: 1, a: 1}
-    - _Fresnel_Color: {r: 16.467844, g: 16.467844, b: 16.467844, a: 1}
-    - _Glitter_Color: {r: 5.8369756, g: 4.7081265, b: 5.162506, a: 1}
+    - _Fresnel_Color: {r: 21.985863, g: 21.985863, b: 21.985863, a: 1}
+    - _Glitter_Color: {r: 3.2263973, g: 1.2917068, b: 8.833609, a: 1}
     - _Noise_Scale: {r: 1, g: 1, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

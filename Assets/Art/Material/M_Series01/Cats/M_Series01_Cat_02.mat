@@ -147,7 +147,7 @@ Material:
     - _Base_Color_2: {r: 0.5, g: 0.5, b: 0.5, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Fresnel_Color: {r: 0.51424223, g: 0.24313718, b: 1.4980392, a: 1}
+    - _Fresnel_Color: {r: 1.0284845, g: 0.48627436, b: 2.9960785, a: 1}
     - _Glitter_Color: {r: 8, g: 8, b: 8, a: 1}
     - _Noise_Scale: {r: 1, g: 1, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
