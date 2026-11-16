@@ -106,7 +106,7 @@ Material:
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _Base_Gradient_Power: 1.1
+    - _Base_Gradient_Power: 1
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -125,7 +125,7 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0
-    - _Noice_Rotation_Speed: -31.89
+    - _Noice_Rotation_Speed: 0.5
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
@@ -137,18 +137,18 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _Transparency: 0.2
+    - _Transparency: 0.5
     - _WorkflowMode: 1
     - _XRMotionVectorsPass: 1
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Base_Color_1: {r: 0.057271298, g: 0.81921375, b: 0.9339623, a: 1}
-    - _Base_Color_2: {r: 0.97642505, g: 0.58431375, b: 0.99215686, a: 1}
+    - _Base_Color_1: {r: 0.5, g: 0.5, b: 0.5, a: 0}
+    - _Base_Color_2: {r: 0.5, g: 0.5, b: 0.5, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Fresnel_Color: {r: 0.29678133, g: 2.3742516, b: 2.9960783, a: 1}
-    - _Glitter_Color: {r: 9.518758, g: 9.518758, b: 9.518758, a: 1}
+    - _Fresnel_Color: {r: 0.51424223, g: 0.24313718, b: 1.4980392, a: 1}
+    - _Glitter_Color: {r: 8, g: 8, b: 8, a: 1}
     - _Noise_Scale: {r: 1, g: 1, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

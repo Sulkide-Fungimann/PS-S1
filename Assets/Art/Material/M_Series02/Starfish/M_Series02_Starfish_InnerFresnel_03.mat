@@ -115,7 +115,7 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
-    - _Fresnel_Power: 2.5
+    - _Fresnel_Power: 2
     - _Glitter_Offset: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
@@ -139,7 +139,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Base_Color_1: {r: 0.13431782, g: 0, b: 2.993145, a: 1}
+    - _Base_Color_1: {r: 0.2418336, g: 0.03574276, b: 2.5258265, a: 1}
     - _Base_Color_2: {r: 0.23113209, g: 0.32009214, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

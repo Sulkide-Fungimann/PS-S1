@@ -878,9 +878,17 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 60f5aadc4137d7642a1569191b868222, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 60f5aadc4137d7642a1569191b868222, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: e7e155bacd45bd648b16c4b963a098c2, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 60f5aadc4137d7642a1569191b868222, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e784a5e6f72d3284da1a06d75afac7d8, type: 2}
     - target: {fileID: 919132149155446097, guid: 60f5aadc4137d7642a1569191b868222, type: 3}
       propertyPath: m_Name
       value: DM_Squishy_Serie01_Rabbit (1)
@@ -1491,7 +1499,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 75faf70621d9e7243b0e60d10d52b2d2, type: 3}
       propertyPath: 'm_Materials.Array.data[2]'
       value: 
-      objectReference: {fileID: 2100000, guid: 90b1b6369c6645142aafc3d7a5ef5f57, type: 2}
+      objectReference: {fileID: 2100000, guid: 90321b4a5a7a3ba41a8b77c0694a56d2, type: 2}
     - target: {fileID: 919132149155446097, guid: 75faf70621d9e7243b0e60d10d52b2d2, type: 3}
       propertyPath: m_Name
       value: DM_Squishy_Serie01_Axolotl
@@ -1671,9 +1679,17 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: bf9477d798b3529448593e5a691a6590, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: bf9477d798b3529448593e5a691a6590, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: a1571dff7a1e63543afbf28b6c4b7568, type: 2}
+    - target: {fileID: -7511558181221131132, guid: bf9477d798b3529448593e5a691a6590, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 64b50e3b852742445b69a99717692ed3, type: 2}
     - target: {fileID: 919132149155446097, guid: bf9477d798b3529448593e5a691a6590, type: 3}
       propertyPath: m_Name
       value: DM_Squishy_Serie01_Cat (1)
@@ -1905,9 +1921,17 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 776a55125fbff7d4a91c98eb50272714, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 776a55125fbff7d4a91c98eb50272714, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: d3ecfbc7dea392e46b0dbe8b45af04ee, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 776a55125fbff7d4a91c98eb50272714, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d9b71d1f9d0e3b642a7c1ca02b02ac3b, type: 2}
     - target: {fileID: 919132149155446097, guid: 776a55125fbff7d4a91c98eb50272714, type: 3}
       propertyPath: m_Name
       value: DM_Squishy_Series01_Mouse (1)

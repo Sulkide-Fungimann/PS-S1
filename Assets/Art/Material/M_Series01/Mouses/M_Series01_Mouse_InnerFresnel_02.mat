@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Series01_Mouse_01
-  m_Shader: {fileID: -6465566751694194690, guid: 30f1a1536829f694c97bef94f47ccf03, type: 3}
+  m_Name: M_Series01_Mouse_InnerFresnel_02
+  m_Shader: {fileID: -6465566751694194690, guid: c2410d46c89a5de409df3f68c9d60c32, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -119,8 +119,8 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
-    - _Fresnel_Power: 10
-    - _Glitter_Offset: 0.05
+    - _Fresnel_Power: 4
+    - _Glitter_Offset: 0.1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -137,18 +137,20 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _Transparency: 0
+    - _Transparency: 1
     - _WorkflowMode: 1
     - _XRMotionVectorsPass: 1
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Base_Color_1: {r: 0.4139509, g: 0.1745283, b: 1, a: 1}
-    - _Base_Color_2: {r: 0.41585082, g: 0.68008775, b: 0.990566, a: 1}
+    - _Base_Color_1: {r: 0.19339621, g: 0.9751267, b: 1, a: 1}
+    - _Base_Color_2: {r: 0.9840673, g: 0.7216981, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Fresnel_Color: {r: 2.5831976, g: 1.8655593, b: 2.6904666, a: 1}
-    - _Glitter_Color: {r: 7.129739, g: 1.1770793, b: 3.554422, a: 1}
+    - _Eyes: {r: 0.253115, g: 0.6792453, b: 0.6792453, a: 1}
+    - _EyesReflection: {r: 1, g: 1, b: 1, a: 1}
+    - _Fresnel_Color: {r: 0, g: 2.56799, b: 2.9960785, a: 1}
+    - _Glitter_Color: {r: 9.51876, g: 9.51876, b: 9.51876, a: 1}
     - _Noise_Scale: {r: 1, g: 1, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
