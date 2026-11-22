@@ -2,7 +2,9 @@ using System;
 using System.Text;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
+using UnityEngine.InputSystem.UI;
 using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 using TouchPhase = UnityEngine.InputSystem.TouchPhase;
 
@@ -11,6 +13,7 @@ public class InputManager : MonoBehaviour
 {
     public TMP_Text text;
     [SerializeField] private bool simulateMouseInEditor = true;
+    private PlayerInput _playerInput;
 
     public event Action<Vector2, double> PrimaryContactStarted;
     public event Action<Vector2, double> PrimaryContactMoved;
@@ -29,8 +32,25 @@ public class InputManager : MonoBehaviour
     {
         Application.targetFrameRate = 60;
         playerInputActions = new PlayerInputActions();
-    }
 
+    }
+    
+    /*
+    private void Start()
+    {
+        _playerInput = GetComponent<PlayerInput>();
+        if (_playerInput != null && _playerInput.camera == null)
+        {
+            if (Camera.main != null)
+            {
+                _playerInput.camera = Camera.main;
+                _playerInput.uiInputModule = Camera.main.transform.GetChild(0).GetComponent<InputSystemUIInputModule>();
+            }
+
+        }
+    }
+    */
+    
     private void OnEnable()
     {
         playerInputActions.Enable();
