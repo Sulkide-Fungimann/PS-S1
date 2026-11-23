@@ -21,6 +21,7 @@ public class PhysicsManager : MonoBehaviour
     
     [Header("Physics Settings")]
     
+    public SoftBodyGrabber softBodyGrabber;
     [SerializeField] private Vector3 gravity = new Vector3(0, -9.81f, 0);
 
     public Vector3 Gravity => gravity;
@@ -138,8 +139,6 @@ public class PhysicsManager : MonoBehaviour
         else
         {
             _instance = this;
-            
-            DontDestroyOnLoad(gameObject);
         }
     }
 

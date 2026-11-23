@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,12 +11,16 @@ public class SuikaGameFonction : MonoBehaviour
     private Squishy currentSquishy;
     private string _currentScene;
 
-    private bool _unclockSuika;
-    private bool _unclockCamera;
+
 
     [Header("Scene Camera")]
     public string sceneName;
     public string cameraPointName;
+    
+    
+    private bool _unclockSuika;
+    private bool _unclockCamera;
+
     
     void Start()
     {
@@ -25,6 +30,9 @@ public class SuikaGameFonction : MonoBehaviour
 
         if (currentSuikaManager != null) _unclockSuika = true;
         if (currentCameraTravel != null) _unclockCamera = true;
+
+
+        
     }
 
     private void OnEnable()
@@ -35,6 +43,7 @@ public class SuikaGameFonction : MonoBehaviour
 
         if (currentSuikaManager != null) _unclockSuika = true;
         if (currentCameraTravel != null) _unclockCamera = true;
+        
     }
 
     private void OnDisable()
@@ -42,44 +51,19 @@ public class SuikaGameFonction : MonoBehaviour
         _unclockSuika = false;
     }
 
+    
+
     private bool TryToFindCatalogueManager()
     {
-        CatalogueManager catalogue = null;
-        
-        foreach (Transform currentParent in transform)
-        {
-            Debug.Log(currentParent.name);
-            catalogue = currentParent.parent.GetComponent<CatalogueManager>();
 
-            if (catalogue != null)
-            {
-                currentCatalogueManager = catalogue;
-                return true;
-            }
-
-            return false;
-        }
         
         return false;
     }
 
     private bool TryToFindSquishy()
     {
-        Squishy squishy = null;
 
-        foreach (Transform currentParent in transform)
-        {
-            Debug.Log(currentParent.name);
-            
-            squishy = currentParent.parent.GetComponent<SquishySlot>().Squishy;
-            
-            if (squishy != null)
-            {
-                currentSquishy = squishy;
-                return true;
-            }
-            return false;
-        }
+        
         return false;
     }
 

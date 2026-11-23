@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,24 +12,9 @@ public sealed class CatalogueManager : MonoBehaviour
         public Squishy Squishy;
     }
 
-    [Serializable]
-    private sealed class CatalogueSaveData
-    {
-        public int Version;
-        public List<SquishySaveState> Items;
-    }
-
-    [Serializable]
-    private sealed class SquishySaveState
-    {
-        public string Id;
-        public bool IsLocked = true;
-        public bool IsFavorit;
-    }
-
     [SerializeField] private RectTransform content;
-    [SerializeField] private HorizontalLayoutGroup linePrefab;
-    [SerializeField] private SquishySlot squishySlotPrefab;
+    [SerializeField] private GameObject linePrefab;
+    [SerializeField] private GameObject squishySlotPrefab;
     [SerializeField] private List<CatalogueEntry> squishys = new List<CatalogueEntry>();
     [SerializeField] private string lockedName = "???";
     [SerializeField] private Sprite favorit;
@@ -39,17 +23,22 @@ public sealed class CatalogueManager : MonoBehaviour
     private readonly Dictionary<Squishy, SquishySlot> slotsBySquishy =
         new Dictionary<Squishy, SquishySlot>();
 
-    private readonly Dictionary<string, SquishySaveState> savedStates =
-        new Dictionary<string, SquishySaveState>(StringComparer.Ordinal);
-
-    private readonly Dictionary<Squishy, SquishySaveState> catalogueStates =
-        new Dictionary<Squishy, SquishySaveState>();
-
+    private readonly Dictionary<Squishy, string> catalogueIds = new Dictionary<Squishy, string>();
     private bool initialized;
-    private bool saveLoaded;
-    private bool canWriteSave = true;
+    private bool registered;
 
-    public string SaveFilePath => Path.Combine(Application.persistentDataPath, "catalogue.json");
+    public string SaveFilePath => CatalogueSaveSystem.SaveFilePath;
+
+    private void OnEnable()
+    {
+        CatalogueSaveSystem.Changed += RefreshExistingSlots;
+        RefreshExistingSlots();
+    }
+
+    private void OnDisable()
+    {
+        CatalogueSaveSystem.Changed -= RefreshExistingSlots;
+    }
 
     public string LockedName => lockedName;
     public Sprite Favorit => favorit;
@@ -65,11 +54,25 @@ public sealed class CatalogueManager : MonoBehaviour
         if (initialized)
             return;
 
-        EnsureSaveLoaded();
+        RegisterCatalogue();
 
         if (content == null || linePrefab == null || squishySlotPrefab == null)
         {
             Debug.LogError("CatalogueManager : renseigne Content, Line Prefab et Squishy Slot Prefab.", this);
+            return;
+        }
+
+        if (linePrefab.GetComponent<RectTransform>() == null
+            || linePrefab.GetComponent<HorizontalLayoutGroup>() == null)
+        {
+            Debug.LogError("CatalogueManager : Line Prefab doit avoir un RectTransform et un HorizontalLayoutGroup sur sa racine.", this);
+            return;
+        }
+
+        if (squishySlotPrefab.GetComponent<RectTransform>() == null
+            || squishySlotPrefab.GetComponent<SquishySlot>() == null)
+        {
+            Debug.LogError("CatalogueManager : Squishy Slot Prefab doit avoir un RectTransform et un SquishySlot sur sa racine.", this);
             return;
         }
 
@@ -86,7 +89,7 @@ public sealed class CatalogueManager : MonoBehaviour
         }
 
         initialized = true;
-        HorizontalLayoutGroup line = null;
+        GameObject line = null;
         SquishySlot lastSlot = null;
         int count = 0;
 
@@ -98,7 +101,7 @@ public sealed class CatalogueManager : MonoBehaviour
                 continue;
             }
 
-            if (!catalogueStates.TryGetValue(entry.Squishy, out SquishySaveState state))
+            if (!catalogueIds.TryGetValue(entry.Squishy, out string id))
                 continue;
 
             if (slotsBySquishy.ContainsKey(entry.Squishy))
@@ -111,13 +114,15 @@ public sealed class CatalogueManager : MonoBehaviour
             {
                 line = Instantiate(linePrefab, content, false);
                 line.name = $"Line {count / 2 + 1}";
-                line.gameObject.SetActive(true);
+                line.SetActive(true);
             }
 
-            SquishySlot slot = Instantiate(squishySlotPrefab, line.transform, false);
+            GameObject slotInstance = Instantiate(squishySlotPrefab, line.transform, false);
+            SquishySlot slot = slotInstance.GetComponent<SquishySlot>();
             slot.name = $"Slot - {entry.Squishy.SquishyName}";
             slotsBySquishy.Add(entry.Squishy, slot);
-            slot.Initialize(this, entry.Squishy, state.IsLocked, state.IsFavorit);
+            CatalogueSaveSystem.TryGetState(id, out bool locked, out bool isFavorit);
+            slot.Initialize(this, entry.Squishy, locked, isFavorit);
             slot.gameObject.SetActive(true);
             lastSlot = slot;
             count++;
@@ -141,12 +146,11 @@ public sealed class CatalogueManager : MonoBehaviour
 
     public void SetLocked(Squishy squishy, bool locked)
     {
-        SquishySaveState state = GetState(squishy);
-
-        if (state == null)
-            return;
-
-        ApplyAndSave(squishy, state, locked, state.IsFavorit);
+        if (TryGetId(squishy, out string id))
+        {
+            CatalogueSaveSystem.TryGetState(id, out _, out bool favorit);
+            CatalogueSaveSystem.SetState(id, locked, favorit);
+        }
     }
 
     public void UnlockSquishy(Squishy squishy)
@@ -156,36 +160,54 @@ public sealed class CatalogueManager : MonoBehaviour
 
     public void SetFavorit(Squishy squishy, bool value)
     {
-        SquishySaveState state = GetState(squishy);
-
-        if (state == null)
-            return;
-
-        ApplyAndSave(squishy, state, state.IsLocked, value);
+        if (TryGetId(squishy, out string id))
+        {
+            CatalogueSaveSystem.TryGetState(id, out bool locked, out _);
+            CatalogueSaveSystem.SetState(id, locked, value);
+        }
     }
 
     public void ReverseFavoritState(Squishy squishy)
     {
-        SquishySaveState state = GetState(squishy);
-
-        if (state != null)
-            ApplyAndSave(squishy, state, state.IsLocked, !state.IsFavorit);
+        if (TryGetId(squishy, out string id))
+        {
+            CatalogueSaveSystem.TryGetState(id, out bool locked, out bool favorit);
+            CatalogueSaveSystem.SetState(id, locked, !favorit);
+        }
     }
 
     public void SetSquishyState(Squishy squishy, bool locked, bool isFavorit)
     {
-        SquishySaveState state = GetState(squishy);
+        if (TryGetId(squishy, out string id))
+            CatalogueSaveSystem.SetState(id, locked, isFavorit);
+    }
 
-        if (state != null)
-            ApplyAndSave(squishy, state, locked, isFavorit);
+    public void SetCurrentPodiumToSquishy(Squishy squishy)
+    {
+        if (!TryGetId(squishy, out string id))
+            return;
+
+        CatalogueSaveSystem.TryGetState(id, out bool locked, out _);
+
+        if (locked)
+        {
+            Debug.LogWarning("CatalogueManager : ce Squishy est verrouille.", this);
+            return;
+        }
+
+        if (squishy.SquishyPrefab == null)
+        {
+            Debug.LogWarning($"CatalogueManager : prefab manquant pour {squishy.SquishyName}.", this);
+            return;
+        }
+
+        CatalogueSaveSystem.SetCurrentPodiumToSquishy(id);
     }
 
     public void RefreshCatalogue()
     {
         InitializeCatalogue();
-
-        foreach (KeyValuePair<Squishy, SquishySaveState> entry in catalogueStates)
-            RefreshSlot(entry.Key, entry.Value);
+        RefreshExistingSlots();
     }
 
     [ContextMenu("Reset Catalogue Save")]
@@ -197,20 +219,9 @@ public sealed class CatalogueManager : MonoBehaviour
             return;
         }
 
-        EnsureSaveLoaded();
-        savedStates.Clear();
-
-        foreach (KeyValuePair<Squishy, SquishySaveState> entry in catalogueStates)
-        {
-            SquishySaveState state = entry.Value;
-            state.IsLocked = true;
-            state.IsFavorit = false;
-            savedStates.Add(state.Id, state);
-            RefreshSlot(entry.Key, state);
-        }
-
-        canWriteSave = true;
-        SaveCatalogue();
+        RegisterCatalogue();
+        CatalogueSaveSystem.ResetCatalogue(catalogueIds.Values);
+        RefreshExistingSlots();
     }
 
     [ContextMenu("Log Save File Path")]
@@ -221,151 +232,62 @@ public sealed class CatalogueManager : MonoBehaviour
 
     public bool SaveCatalogue()
     {
-        if (!saveLoaded)
-            EnsureSaveLoaded();
-
-        if (!canWriteSave)
-        {
-            Debug.LogError("CatalogueManager : sauvegarde bloquee pour proteger le fichier illisible. Corrige le fichier ou appelle ResetCatalogueSave pour le remplacer.", this);
-            return false;
-        }
-
-        try
-        {
-            CatalogueSaveData data = new CatalogueSaveData
-            {
-                Version = 1,
-                Items = new List<SquishySaveState>(savedStates.Values)
-            };
-
-            data.Items.Sort((a, b) => string.CompareOrdinal(a.Id, b.Id));
-            string path = SaveFilePath;
-            string temporaryPath = path + ".tmp";
-            Directory.CreateDirectory(Path.GetDirectoryName(path));
-            File.WriteAllText(temporaryPath, JsonUtility.ToJson(data, true));
-
-            if (File.Exists(path))
-                File.Replace(temporaryPath, path, null);
-            else
-                File.Move(temporaryPath, path);
-
-            return true;
-        }
-        catch (Exception exception) when (exception is IOException
-            || exception is UnauthorizedAccessException
-            || exception is ArgumentException
-            || exception is NotSupportedException
-            || exception is System.Security.SecurityException)
-        {
-            Debug.LogError($"CatalogueManager : sauvegarde impossible : {exception.Message}", this);
-            return false;
-        }
+        RegisterCatalogue();
+        return CatalogueSaveSystem.Save();
     }
 
-    private void EnsureSaveLoaded()
+    private void RegisterCatalogue()
     {
-        if (saveLoaded)
+        if (registered)
             return;
 
-        saveLoaded = true;
-        bool saveNeeded = false;
-
-        try
-        {
-            if (File.Exists(SaveFilePath))
-            {
-                CatalogueSaveData data = JsonUtility.FromJson<CatalogueSaveData>(File.ReadAllText(SaveFilePath));
-
-                if (data == null || data.Version != 1 || data.Items == null)
-                    throw new FormatException("Format ou version de sauvegarde invalide.");
-
-                foreach (SquishySaveState state in data.Items)
-                {
-                    if (state == null || string.IsNullOrWhiteSpace(state.Id)
-                        || savedStates.ContainsKey(state.Id))
-                        throw new FormatException("Identifiant de sauvegarde absent ou duplique.");
-
-                    if (state.IsLocked && state.IsFavorit)
-                    {
-                        state.IsFavorit = false;
-                        saveNeeded = true;
-                    }
-
-                    savedStates.Add(state.Id, state);
-                }
-            }
-            else
-            {
-                saveNeeded = true;
-            }
-        }
-        catch (Exception exception) when (exception is IOException
-            || exception is UnauthorizedAccessException
-            || exception is ArgumentException
-            || exception is FormatException
-            || exception is NotSupportedException
-            || exception is System.Security.SecurityException)
-        {
-            savedStates.Clear();
-            canWriteSave = false;
-            Debug.LogError($"CatalogueManager : lecture impossible, etats par defaut utilises sans ecraser le fichier. {exception.Message}", this);
-        }
-
-        HashSet<string> catalogueIds = new HashSet<string>(StringComparer.Ordinal);
+        registered = true;
+        HashSet<string> ids = new HashSet<string>(StringComparer.Ordinal);
 
         foreach (CatalogueEntry entry in squishys)
         {
-            if (entry == null || entry.Squishy == null || catalogueStates.ContainsKey(entry.Squishy))
+            if (entry == null || entry.Squishy == null || catalogueIds.ContainsKey(entry.Squishy))
                 continue;
 
             string id = entry.Squishy.SaveId;
 
-            if (string.IsNullOrWhiteSpace(id) || !catalogueIds.Add(id))
+            if (string.IsNullOrWhiteSpace(id) || !ids.Add(id))
             {
-                Debug.LogError($"CatalogueManager : identifiant absent ou duplique pour {entry.Squishy.SquishyName}. Ouvre cet asset dans l'Editor avant de construire le jeu.", this);
+                Debug.LogError($"CatalogueManager : identifiant absent ou duplique pour {entry.Squishy.SquishyName}.", this);
                 continue;
             }
 
-            if (!savedStates.TryGetValue(id, out SquishySaveState state))
-            {
-                state = new SquishySaveState { Id = id, IsLocked = true, IsFavorit = false };
-                savedStates.Add(id, state);
-                saveNeeded = true;
-            }
-
-            catalogueStates.Add(entry.Squishy, state);
+            catalogueIds.Add(entry.Squishy, id);
         }
 
-        if (saveNeeded && canWriteSave)
-            SaveCatalogue();
+        CatalogueSaveSystem.EnsureItems(catalogueIds.Values);
     }
 
-    private SquishySaveState GetState(Squishy squishy)
+    private bool TryGetId(Squishy squishy, out string id)
     {
-        EnsureSaveLoaded();
+        RegisterCatalogue();
+        id = null;
 
-        if (squishy != null && catalogueStates.TryGetValue(squishy, out SquishySaveState state))
-            return state;
+        if (squishy != null && catalogueIds.TryGetValue(squishy, out id))
+            return true;
 
         Debug.LogWarning("CatalogueManager : Squishy absent du catalogue ou identifiant invalide.", this);
-        return null;
+        return false;
     }
 
-    private void ApplyAndSave(Squishy squishy, SquishySaveState state, bool locked, bool isFavorit)
+    private void RefreshExistingSlots()
     {
-        state.IsLocked = locked;
-        state.IsFavorit = !locked && isFavorit;
-        RefreshSlot(squishy, state);
-        SaveCatalogue();
+        foreach (KeyValuePair<Squishy, SquishySlot> entry in slotsBySquishy)
+        {
+            if (entry.Value == null || !catalogueIds.TryGetValue(entry.Key, out string id))
+                continue;
+
+            CatalogueSaveSystem.TryGetState(id, out bool locked, out bool favorit);
+            entry.Value.ApplyState(locked, favorit);
+        }
     }
 
-    private void RefreshSlot(Squishy squishy, SquishySaveState state)
-    {
-        if (slotsBySquishy.TryGetValue(squishy, out SquishySlot slot) && slot != null)
-            slot.ApplyState(state.IsLocked, state.IsFavorit);
-    }
-
-    public void OnSquishyIconTouched(SquishySlot slot)
+    public void OnSquishyIconTouchedInCollection(SquishySlot slot)
     {
         if (slot == null || slot.IsLocked || slot.Squishy == null)
             return;
@@ -373,6 +295,23 @@ public sealed class CatalogueManager : MonoBehaviour
         if (!slotsBySquishy.TryGetValue(slot.Squishy, out SquishySlot registeredSlot)
             || registeredSlot != slot)
             return;
+        
+
+        Squishy data = slot.Squishy;
+        string prefabName = data.SquishyPrefab != null ? data.SquishyPrefab.name : "Aucun prefab";
+        Debug.Log($"Squishy : {data.SquishyName} | RarityLevel : {data.RarityLevel} | Prefab : {prefabName}", this);
+    }
+    
+    public void OnSquishyIconTouchedInPodium(SquishySlot slot)
+    {
+        if (slot == null || slot.IsLocked || slot.Squishy == null)
+            return;
+
+        if (!slotsBySquishy.TryGetValue(slot.Squishy, out SquishySlot registeredSlot)
+            || registeredSlot != slot)
+            return;
+
+        SetCurrentPodiumToSquishy(slot.Squishy);
 
         Squishy data = slot.Squishy;
         string prefabName = data.SquishyPrefab != null ? data.SquishyPrefab.name : "Aucun prefab";

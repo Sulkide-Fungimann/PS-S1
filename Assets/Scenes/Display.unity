@@ -508,11 +508,45 @@ Transform:
   m_GameObject: {fileID: 201122151}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 200, y: 18, z: -35.625}
+  m_LocalPosition: {x: 200, y: 18, z: -35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1077456923}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &293207667
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 293207669}
+  m_Layer: 0
+  m_Name: PodiumPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &293207669
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 293207667}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 194.93817, y: 20.28788, z: -16.41127}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 404239138}
+  - {fileID: 1519871242}
+  - {fileID: 699198188}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &294381654
@@ -546,8 +580,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SoftBodyGrabber
   inputManager: {fileID: 1582726813}
   gameplayCamera: {fileID: 0}
-  targets:
-  - {fileID: 1658410516}
+  targets: []
   maximumPickDistance: 100
   ignoreTouchesOverUI: 1
   throwMultiplier: 1
@@ -578,8 +611,9 @@ GameObject:
   m_Component:
   - component: {fileID: 297011816}
   - component: {fileID: 297011817}
+  - component: {fileID: 297011818}
   m_Layer: 5
-  m_Name: PodiumContainer
+  m_Name: PodiumManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -593,7 +627,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 297011815}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -46.875}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -604,7 +638,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 1001.25}
+  m_AnchoredPosition: {x: 0, y: 1242.1875}
   m_SizeDelta: {x: 1000, y: 1000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &297011817
@@ -633,6 +667,83 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &297011818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 297011815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0ac47f609201cb47a970c9e78feb65b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PodiumManager
+  podiumPoint:
+  - {fileID: 404239138}
+  - {fileID: 1519871242}
+  - {fileID: 699198188}
+  firstPlace:
+    Position: {fileID: 1112381988}
+    EmptyButton: {fileID: 1959459286}
+  secondPlace:
+    Position: {fileID: 840122793}
+    EmptyButton: {fileID: 914851623}
+  thirdPlace:
+    Position: {fileID: 567589006}
+    EmptyButton: {fileID: 2028047334}
+  squishys:
+  - {fileID: 11400000, guid: 3644325ea6113f649b94c1195cf6895b, type: 2}
+  - {fileID: 11400000, guid: dcaff1317668c06418b09659c22ff2d0, type: 2}
+  - {fileID: 11400000, guid: ba795732929395347a70a0bc251cc07f, type: 2}
+  - {fileID: 11400000, guid: da06f8ceb66bb5b488a476ba0519f340, type: 2}
+  - {fileID: 11400000, guid: 74a479fea848a944ab8dbdca935cb107, type: 2}
+--- !u!1 &404239137
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 404239138}
+  - component: {fileID: 404239139}
+  m_Layer: 0
+  m_Name: Podium 1 ref point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &404239138
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 404239137}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 4.8463745, y: -2.3889904, z: 3.3878298}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 293207669}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &404239139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 404239137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a755c28d5a818c54489fbd586238a815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SuikaGameFonction
+  sceneName: 
+  cameraPointName: 
 --- !u!1 &495196549
 GameObject:
   m_ObjectHideFlags: 0
@@ -772,75 +883,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 495196549}
   m_CullTransparentMesh: 1
---- !u!1001 &566492928
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2615336370234048967, guid: 0d74f0a46247e87429b1c50ceea3434c, type: 3}
-      propertyPath: m_Name
-      value: SoftbodyEntity
-      objectReference: {fileID: 0}
-    - target: {fileID: 7540031005455236394, guid: 0d74f0a46247e87429b1c50ceea3434c, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 4.88
-      objectReference: {fileID: 0}
-    - target: {fileID: 7540031005455236394, guid: 0d74f0a46247e87429b1c50ceea3434c, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 4.88
-      objectReference: {fileID: 0}
-    - target: {fileID: 7540031005455236394, guid: 0d74f0a46247e87429b1c50ceea3434c, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 4.88
-      objectReference: {fileID: 0}
-    - target: {fileID: 7540031005455236394, guid: 0d74f0a46247e87429b1c50ceea3434c, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 200.37572
-      objectReference: {fileID: 0}
-    - target: {fileID: 7540031005455236394, guid: 0d74f0a46247e87429b1c50ceea3434c, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 22.051897
-      objectReference: {fileID: 0}
-    - target: {fileID: 7540031005455236394, guid: 0d74f0a46247e87429b1c50ceea3434c, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -20
-      objectReference: {fileID: 0}
-    - target: {fileID: 7540031005455236394, guid: 0d74f0a46247e87429b1c50ceea3434c, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7540031005455236394, guid: 0d74f0a46247e87429b1c50ceea3434c, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7540031005455236394, guid: 0d74f0a46247e87429b1c50ceea3434c, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7540031005455236394, guid: 0d74f0a46247e87429b1c50ceea3434c, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7540031005455236394, guid: 0d74f0a46247e87429b1c50ceea3434c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7540031005455236394, guid: 0d74f0a46247e87429b1c50ceea3434c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7540031005455236394, guid: 0d74f0a46247e87429b1c50ceea3434c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 0d74f0a46247e87429b1c50ceea3434c, type: 3}
 --- !u!1 &567589005
 GameObject:
   m_ObjectHideFlags: 0
@@ -1024,6 +1066,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 594345372}
   m_CullTransparentMesh: 1
+--- !u!1 &699198187
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 699198188}
+  m_Layer: 0
+  m_Name: Podium 3 ref point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &699198188
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 699198187}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 10.2213745, y: -10.76399, z: 3.3878298}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 293207669}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &752013152
 GameObject:
   m_ObjectHideFlags: 0
@@ -1220,7 +1293,7 @@ GameObject:
   - component: {fileID: 855434993}
   - component: {fileID: 855434992}
   - component: {fileID: 855434991}
-  - component: {fileID: 855434990}
+  - component: {fileID: 855434994}
   m_Layer: 5
   m_Name: CanvasDisplay
   m_TagString: Untagged
@@ -1228,23 +1301,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &855434990
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 855434989}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GraphicRaycaster
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!114 &855434991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1316,6 +1372,23 @@ RectTransform:
   m_AnchoredPosition: {x: 200, y: 17.9}
   m_SizeDelta: {x: 1080, y: 2400}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &855434994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 855434989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75bfc9732937d534e985341e06e8107d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoftBodyGraphicRaycaster
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &886070306
 GameObject:
   m_ObjectHideFlags: 0
@@ -1556,6 +1629,7 @@ GameObject:
   - component: {fileID: 914851625}
   - component: {fileID: 914851624}
   - component: {fileID: 914851623}
+  - component: {fileID: 914851626}
   m_Layer: 5
   m_Name: AddSquishy
   m_TagString: Untagged
@@ -1579,7 +1653,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -46.875}
+  m_AnchoredPosition: {x: 0, y: -296.875}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &914851623
@@ -1625,7 +1699,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 914851624}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 297011818}
+        m_TargetAssemblyTypeName: PodiumManager, Assembly-CSharp
+        m_MethodName: SetPodiumToModify
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 914851626}
+        m_TargetAssemblyTypeName: SuikaGameFonction, Assembly-CSharp
+        m_MethodName: SwitchSceneTo
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &914851624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1664,6 +1762,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 914851621}
   m_CullTransparentMesh: 1
+--- !u!114 &914851626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914851621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a755c28d5a818c54489fbd586238a815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SuikaGameFonction
+  sceneName: PodiumSelection
+  cameraPointName: CameraPoint
 --- !u!1 &1057363696
 GameObject:
   m_ObjectHideFlags: 0
@@ -1956,10 +2068,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f42aeb57c9601a46b7b5d6202cffb8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhysicsManager
+  softBodyGrabber: {fileID: 294381655}
   gravity: {x: 0, y: -9.81, z: 0}
   restitution: 0.8
-  substeps: 3
-  solverIterations: 6
+  substeps: 1
+  solverIterations: 3
   adaptiveSubsteps: 1
   maximumAdaptiveSubsteps: 128
   maximumTravelPerRadius: 0.5
@@ -1967,13 +2080,13 @@ MonoBehaviour:
   bounceThreshold: 0.5
   useWorldBounds: 1
   captureIncomingEntities: 1
-  worldCenterXZ: {x: 200, y: -22.29}
+  worldCenterXZ: {x: 200, y: -18.6}
   useSpatialHashing: 1
-  halfWidth: 12
-  halfDepth: 13
+  halfWidth: 8.6
+  halfDepth: 7.59
   floorY: 3
   useCeiling: 1
-  containerHeight: 25.2
+  containerHeight: 35.7
   enableDebug: 1
   floorGizmoColor: {r: 0, g: 1, b: 1, a: 1}
   lastCellSize: 0
@@ -2019,11 +2132,42 @@ Transform:
   m_GameObject: {fileID: 1304508603}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 200, y: 17.9, z: -100}
+  m_LocalPosition: {x: 200, y: 18, z: -35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1519871241
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1519871242}
+  m_Layer: 0
+  m_Name: Podium 2 ref point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1519871242
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519871241}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.2786255, y: -6.3889904, z: 3.3878298}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 293207669}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1582726812
 GameObject:
@@ -2119,12 +2263,16 @@ PrefabInstance:
       value: PassiveEntity (2)
       objectReference: {fileID: 0}
     - target: {fileID: 7464773294921693437, guid: 3d5e4bc6922f9c6458076623debdcf39, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 5.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7464773294921693437, guid: 3d5e4bc6922f9c6458076623debdcf39, type: 3}
       propertyPath: m_LocalScale.y
       value: 8.65
       objectReference: {fileID: 0}
     - target: {fileID: 7464773294921693437, guid: 3d5e4bc6922f9c6458076623debdcf39, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 195.09135
+      value: 194.59135
       objectReference: {fileID: 0}
     - target: {fileID: 7464773294921693437, guid: 3d5e4bc6922f9c6458076623debdcf39, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2132,7 +2280,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7464773294921693437, guid: 3d5e4bc6922f9c6458076623debdcf39, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -13.93516
+      value: -7.1851597
       objectReference: {fileID: 0}
     - target: {fileID: 7464773294921693437, guid: 3d5e4bc6922f9c6458076623debdcf39, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2161,6 +2309,10 @@ PrefabInstance:
     - target: {fileID: 7464773294921693437, guid: 3d5e4bc6922f9c6458076623debdcf39, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7819652624543268314, guid: 3d5e4bc6922f9c6458076623debdcf39, type: 3}
+      propertyPath: width
+      value: 5.5
       objectReference: {fileID: 0}
     - target: {fileID: 7819652624543268314, guid: 3d5e4bc6922f9c6458076623debdcf39, type: 3}
       propertyPath: height
@@ -2188,6 +2340,10 @@ PrefabInstance:
       value: PassiveEntity (1)
       objectReference: {fileID: 0}
     - target: {fileID: 7464773294921693437, guid: 3d5e4bc6922f9c6458076623debdcf39, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 5.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7464773294921693437, guid: 3d5e4bc6922f9c6458076623debdcf39, type: 3}
       propertyPath: m_LocalScale.y
       value: 13.1
       objectReference: {fileID: 0}
@@ -2201,7 +2357,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7464773294921693437, guid: 3d5e4bc6922f9c6458076623debdcf39, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -13.93516
+      value: -7.1851597
       objectReference: {fileID: 0}
     - target: {fileID: 7464773294921693437, guid: 3d5e4bc6922f9c6458076623debdcf39, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2232,6 +2388,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7819652624543268314, guid: 3d5e4bc6922f9c6458076623debdcf39, type: 3}
+      propertyPath: width
+      value: 5.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7819652624543268314, guid: 3d5e4bc6922f9c6458076623debdcf39, type: 3}
       propertyPath: height
       value: 13.1
       objectReference: {fileID: 0}
@@ -2240,17 +2400,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d5e4bc6922f9c6458076623debdcf39, type: 3}
---- !u!114 &1658410516 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6048402265517471120, guid: 0d74f0a46247e87429b1c50ceea3434c, type: 3}
-  m_PrefabInstance: {fileID: 566492928}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66724b7e1c6198d47939194f100a4870, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SoftBodyEntity
 --- !u!1001 &1925800175
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2268,12 +2417,16 @@ PrefabInstance:
       value: PassiveEntity
       objectReference: {fileID: 0}
     - target: {fileID: 7464773294921693437, guid: 3d5e4bc6922f9c6458076623debdcf39, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 5.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7464773294921693437, guid: 3d5e4bc6922f9c6458076623debdcf39, type: 3}
       propertyPath: m_LocalScale.y
       value: 4.85
       objectReference: {fileID: 0}
     - target: {fileID: 7464773294921693437, guid: 3d5e4bc6922f9c6458076623debdcf39, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 205.09135
+      value: 205.46635
       objectReference: {fileID: 0}
     - target: {fileID: 7464773294921693437, guid: 3d5e4bc6922f9c6458076623debdcf39, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2281,7 +2434,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7464773294921693437, guid: 3d5e4bc6922f9c6458076623debdcf39, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -13.93516
+      value: -7.1851597
       objectReference: {fileID: 0}
     - target: {fileID: 7464773294921693437, guid: 3d5e4bc6922f9c6458076623debdcf39, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2310,6 +2463,10 @@ PrefabInstance:
     - target: {fileID: 7464773294921693437, guid: 3d5e4bc6922f9c6458076623debdcf39, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7819652624543268314, guid: 3d5e4bc6922f9c6458076623debdcf39, type: 3}
+      propertyPath: width
+      value: 5.5
       objectReference: {fileID: 0}
     - target: {fileID: 7819652624543268314, guid: 3d5e4bc6922f9c6458076623debdcf39, type: 3}
       propertyPath: height
@@ -2332,6 +2489,7 @@ GameObject:
   - component: {fileID: 1959459288}
   - component: {fileID: 1959459287}
   - component: {fileID: 1959459286}
+  - component: {fileID: 1959459289}
   m_Layer: 5
   m_Name: AddSquishy
   m_TagString: Untagged
@@ -2355,7 +2513,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 195.3125}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1959459286
@@ -2401,7 +2559,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1959459287}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 297011818}
+        m_TargetAssemblyTypeName: PodiumManager, Assembly-CSharp
+        m_MethodName: SetPodiumToModify
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 914851626}
+        m_TargetAssemblyTypeName: SuikaGameFonction, Assembly-CSharp
+        m_MethodName: SwitchSceneTo
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1959459287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2440,6 +2622,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1959459284}
   m_CullTransparentMesh: 1
+--- !u!114 &1959459289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1959459284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a755c28d5a818c54489fbd586238a815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SuikaGameFonction
+  sceneName: PodiumSelection
+  cameraPointName: CameraPoint
 --- !u!1 &2028047332
 GameObject:
   m_ObjectHideFlags: 0
@@ -2452,6 +2648,7 @@ GameObject:
   - component: {fileID: 2028047336}
   - component: {fileID: 2028047335}
   - component: {fileID: 2028047334}
+  - component: {fileID: 2028047337}
   m_Layer: 5
   m_Name: AddSquishy
   m_TagString: Untagged
@@ -2475,7 +2672,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -312.5}
+  m_AnchoredPosition: {x: 0, y: -546.875}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2028047334
@@ -2521,7 +2718,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2028047335}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 297011818}
+        m_TargetAssemblyTypeName: PodiumManager, Assembly-CSharp
+        m_MethodName: SetPodiumToModify
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 914851626}
+        m_TargetAssemblyTypeName: SuikaGameFonction, Assembly-CSharp
+        m_MethodName: SwitchSceneTo
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2028047335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2560,6 +2781,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2028047332}
   m_CullTransparentMesh: 1
+--- !u!114 &2028047337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028047332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a755c28d5a818c54489fbd586238a815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SuikaGameFonction
+  sceneName: PodiumSelection
+  cameraPointName: CameraPoint
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2574,4 +2809,4 @@ SceneRoots:
   - {fileID: 1925800175}
   - {fileID: 1625681661}
   - {fileID: 1607485410}
-  - {fileID: 566492928}
+  - {fileID: 293207669}

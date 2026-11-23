@@ -10,7 +10,7 @@ public class SoftBodyGrabber : MonoBehaviour
     [Header("References")]
     [SerializeField] private InputManager inputManager;
     [SerializeField] private Camera gameplayCamera;
-    [SerializeField] private SoftBodyEntity[] targets = new SoftBodyEntity[0];
+    public List<SoftBodyEntity> targets;
 
     [Header("Selection")]
     [SerializeField, Min(0.01f)] private float maximumPickDistance = 100f;
@@ -20,6 +20,12 @@ public class SoftBodyGrabber : MonoBehaviour
     [SerializeField, Min(0f)] private float throwMultiplier = 1f;
     [SerializeField, Min(0f)] private float maximumThrowSpeed = 12f;
     [SerializeField, Min(0f)] private float velocitySmoothing = 0.04f;
+
+    private static readonly List<SoftBodyGrabber> ActiveGrabbers = new List<SoftBodyGrabber>();
+    public const float UIDepthTolerance = 0.0001f;
+    private int _pressFrame = -1;
+    private Vector2 _pressPosition;
+    private float _pressDistance;
 
     private InputManager _subscribedInput;
     private SoftBodyEntity _body;
@@ -47,9 +53,9 @@ public class SoftBodyGrabber : MonoBehaviour
             enabled = false;
             return;
         }
-        if (targets == null || targets.Length == 0)
-            Debug.LogWarning(name + " : Attention aucun softbody n'est renseigner dans la list du physics manager.", this);
+        if (targets == null || targets.Count == 0) Debug.LogWarning(name + " : Attention aucun softbody n'est renseigner dans la liste du physics manager", this);
 
+        if (!ActiveGrabbers.Contains(this)) ActiveGrabbers.Add(this);
         _subscribedInput = inputManager;
         _subscribedInput.PrimaryContactStarted += ContactStarted;
         _subscribedInput.PrimaryContactMoved += ContactMoved;
@@ -58,6 +64,7 @@ public class SoftBodyGrabber : MonoBehaviour
 
     private void OnDisable()
     {
+        ActiveGrabbers.Remove(this);
         if (_subscribedInput != null)
         {
             _subscribedInput.PrimaryContactStarted -= ContactStarted;
@@ -74,17 +81,22 @@ public class SoftBodyGrabber : MonoBehaviour
         if (_body == null || !_body.isActiveAndEnabled || !_body.IsGrabbed || gameplayCamera == null || !gameplayCamera.isActiveAndEnabled || _subscribedInput == null || !_subscribedInput.isActiveAndEnabled || Time.timeScale <= 0f) Release(true);
     }
 
+    public void AddSoftBodyToList(SoftBodyEntity bodyEntity)
+    {
+        targets.Add(bodyEntity);
+    }
+
     private void ContactStarted(Vector2 screenPosition, double sampleTime)
     {
         Release(true);
-        if (Time.timeScale <= 0f || gameplayCamera == null || !gameplayCamera.isActiveAndEnabled || !gameplayCamera.pixelRect.Contains(screenPosition) || targets == null || (ignoreTouchesOverUI && IsOverUI(screenPosition))) return;
+        if (Time.timeScale <= 0f || gameplayCamera == null || !gameplayCamera.isActiveAndEnabled || !gameplayCamera.pixelRect.Contains(screenPosition) || targets == null) return;
 
         Ray ray = gameplayCamera.ScreenPointToRay(screenPosition);
         float closest = Mathf.Max(0.01f, maximumPickDistance);
         SoftBodyEntity selected = null;
         Vector3 selectedHit = Vector3.zero;
         int selectedParticle = -1;
-        for (int i = 0; i < targets.Length; i++)
+        for (int i = 0; i < targets.Count; i++)
         {
             SoftBodyEntity candidate = targets[i];
             if (candidate == null || (gameplayCamera.cullingMask & (1 << candidate.gameObject.layer)) == 0) continue;
@@ -94,7 +106,13 @@ public class SoftBodyGrabber : MonoBehaviour
             selectedParticle = particle;
             closest = distance;
         }
-        if (selected == null || !selected.TryBeginGrab(selectedParticle, out Vector3 particlePosition)) return;
+        if (selected == null) return;
+        if (ignoreTouchesOverUI && IsOverUI(screenPosition, ray, closest)) return;
+        if (!selected.TryBeginGrab(selectedParticle, out Vector3 particlePosition)) return;
+        
+        _pressFrame = Time.frameCount;
+        _pressPosition = screenPosition;
+        _pressDistance = closest;
 
         _body = selected;
         _dragging = true;
@@ -157,7 +175,7 @@ public class SoftBodyGrabber : MonoBehaviour
         _estimatedVelocity = Vector3.zero;
     }
 
-    private bool IsOverUI(Vector2 screenPosition)
+    private bool IsOverUI(Vector2 screenPosition, Ray ray, float bodyDistance)
     {
         EventSystem events = EventSystem.current;
         if (events == null) return false;
@@ -170,8 +188,54 @@ public class SoftBodyGrabber : MonoBehaviour
         _pointerData.position = screenPosition;
         _uiHits.Clear();
         events.RaycastAll(_pointerData, _uiHits);
-        for (int i = 0; i < _uiHits.Count; i++) if (_uiHits[i].module is GraphicRaycaster) return true;
+        for (int i = 0; i < _uiHits.Count; i++)
+        {
+            RaycastResult hit = _uiHits[i];
+            if (!(hit.module is GraphicRaycaster graphicRaycaster)) continue;
+            Canvas canvas = graphicRaycaster.GetComponent<Canvas>();
+            if (canvas == null || canvas.renderMode != RenderMode.WorldSpace) return true;
+            if (graphicRaycaster.eventCamera != gameplayCamera) return true;
+            float uiDistance = Vector3.Dot(hit.worldPosition - ray.origin, ray.direction);
+            if (uiDistance <= bodyDistance + UIDepthTolerance) return true;
+        }
         return false;
+    }
+    
+    public static bool TryGetUIBlockingDistance(Camera camera, Vector2 screenPosition, out float distance)
+    {
+        distance = float.PositiveInfinity;
+        if (camera == null || !camera.isActiveAndEnabled || Time.timeScale <= 0f
+            || !camera.pixelRect.Contains(screenPosition)) return false;
+
+        Ray ray = camera.ScreenPointToRay(screenPosition);
+        bool found = false;
+        for (int g = 0; g < ActiveGrabbers.Count; g++)
+        {
+            SoftBodyGrabber grabber = ActiveGrabbers[g];
+            if (grabber == null || !grabber.isActiveAndEnabled || !grabber.ignoreTouchesOverUI
+                || grabber.gameplayCamera != camera || grabber._subscribedInput == null
+                || !grabber._subscribedInput.isActiveAndEnabled) continue;
+
+            if (grabber._pressFrame == Time.frameCount
+                && (grabber._pressPosition - screenPosition).sqrMagnitude <= 0.25f)
+            {
+                distance = Mathf.Min(distance, grabber._pressDistance);
+                found = true;
+            }
+
+            if (grabber.targets == null) continue;
+            float limit = Mathf.Max(0.01f, grabber.maximumPickDistance);
+            for (int i = 0; i < grabber.targets.Count; i++)
+            {
+                SoftBodyEntity candidate = grabber.targets[i];
+                if (candidate == null || (camera.cullingMask & (1 << candidate.gameObject.layer)) == 0) continue;
+                if (!candidate.TryRaycast(ray, out float hitDistance, out _, out _, true)
+                    || hitDistance >= limit || hitDistance >= distance) continue;
+                distance = hitDistance;
+                found = true;
+            }
+        }
+        return found;
     }
 
     private void OnApplicationFocus(bool hasFocus)

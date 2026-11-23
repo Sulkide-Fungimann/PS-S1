@@ -108,6 +108,8 @@ public class SoftBodyEntity : MonoBehaviour
         }
 
         if (_initialized) _physicsManager.Register(this);
+        
+        if (_initialized) _physicsManager.softBodyGrabber.AddSoftBodyToList(this);
     }
 
     private void OnDisable()
@@ -365,12 +367,13 @@ public class SoftBodyEntity : MonoBehaviour
         _grabVisualDirty = true;
     }
 
-    public bool TryRaycast(Ray ray, out float hitDistance, out Vector3 hitPoint, out int particleIndex)
+    public bool TryRaycast(Ray ray, out float hitDistance, out Vector3 hitPoint, out int particleIndex, bool includeGrabbed = false)
     {
         hitDistance = float.PositiveInfinity;
         hitPoint = Vector3.zero;
         particleIndex = -1;
-        if (!_initialized || !isActiveAndEnabled || IsGrabbed) return false;
+        // UI occlusion can also query a body currently held by a finger.
+        if (!_initialized || !isActiveAndEnabled || (IsGrabbed && !includeGrabbed)) return false;
 
         if (_skin != null && _skin.IsBound && _skin.isActiveAndEnabled)
         {

@@ -17,4 +17,4 @@ MonoBehaviour:
   iconLocked: {fileID: 21300000, guid: 3807b51f8da6e4c49bf36b856ec7048a, type: 3}
   iconUnlocked: {fileID: 21300000, guid: ecf422ddd22d42845967b66aba4a8f3b, type: 3}
   RarityLevel: 2
-  SquishyPrefab: {fileID: 7693550294589348577, guid: 802336465f2381342be038c1ca219ce4, type: 3}
+  SquishyPrefab: {fileID: 2615336370234048967, guid: f76bfa2bb476b2f478c74d4311f65552, type: 3}

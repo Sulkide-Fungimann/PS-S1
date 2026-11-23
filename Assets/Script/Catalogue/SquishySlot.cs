@@ -14,6 +14,8 @@ public sealed class SquishySlot : MonoBehaviour
     [SerializeField] private Image favoritImage;
     [SerializeField] private Button favoritButton;
     [SerializeField] private Button currentSquishy;
+    [SerializeField] private bool canBePlayed;
+    [SerializeField] private bool canBeOnPodium;
 
     private CatalogueManager manager;
 
@@ -78,7 +80,19 @@ public sealed class SquishySlot : MonoBehaviour
     public void OnIconTouched()
     {
         if (manager != null && !isLocked)
-            manager.OnSquishyIconTouched(this);
+        {
+            if (canBePlayed)
+            {
+                manager.OnSquishyIconTouchedInCollection(this);
+            }
+
+            if (canBeOnPodium)
+            {
+                manager.OnSquishyIconTouchedInPodium(this);
+            }
+            
+        }
+            
     }
 
     private void OnValidate()
